@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nourish — Meal Tracker & Diet Planner</title>
+  <meta name="description" content="Track meals, plan your diet and reach your health goals with Nourish. Available on Android." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #05050a;
+      --bg2:      #0d0d18;
+      --card:     #111120;
+      --primary:  #00e5a0;
+      --primary2: #00c9ff;
+      --text:     #f0f0f8;
+      --text2:    #8888aa;
+      --border:   rgba(255,255,255,0.07);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      line-height: 1.6;
+    }
+
+    a { color: var(--primary); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(5,5,10,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 60px;
+    }
+    .nav-logo {
+      font-size: 20px; font-weight: 900; letter-spacing: -0.5px;
+      background: linear-gradient(90deg, var(--primary), var(--primary2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .nav-links { display: flex; gap: 24px; }
+    .nav-links a { color: var(--text2); font-size: 14px; font-weight: 500; }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    /* ── Hero ── */
+    .hero {
+      text-align: center;
+      padding: 100px 24px 80px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,229,160,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(0,229,160,0.1);
+      border: 1px solid rgba(0,229,160,0.25);
+      color: var(--primary);
+      font-size: 12px; font-weight: 700; letter-spacing: 1px;
+      padding: 6px 16px; border-radius: 100px;
+      margin-bottom: 28px; text-transform: uppercase;
+    }
+    .hero h1 {
+      font-size: clamp(40px, 7vw, 72px);
+      font-weight: 900; letter-spacing: -2px; line-height: 1.05;
+      margin-bottom: 20px;
+    }
+    .hero h1 span {
+      background: linear-gradient(90deg, var(--primary), var(--primary2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 18px; color: var(--text2);
+      max-width: 480px; margin: 0 auto 40px; line-height: 1.7;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: linear-gradient(90deg, var(--primary), var(--primary2));
+      color: #000; font-weight: 800; font-size: 16px;
+      padding: 16px 36px; border-radius: 14px;
+      border: none; cursor: pointer; transition: opacity .2s;
+    }
+    .btn:hover { opacity: .85; text-decoration: none; }
+    .btn-ghost {
+      background: transparent;
+      border: 1.5px solid var(--border);
+      color: var(--text2); margin-left: 12px;
+    }
+    .btn-ghost:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* ── Features ── */
+    .section { padding: 80px 24px; max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      text-align: center; color: var(--primary);
+      font-size: 12px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; margin-bottom: 16px;
+    }
+    .section h2 {
+      text-align: center; font-size: clamp(28px, 4vw, 44px);
+      font-weight: 900; letter-spacing: -1px; margin-bottom: 16px;
+    }
+    .section-sub {
+      text-align: center; color: var(--text2);
+      font-size: 16px; max-width: 500px; margin: 0 auto 56px;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .feature-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px; padding: 28px;
+      transition: border-color .2s;
+    }
+    .feature-card:hover { border-color: rgba(0,229,160,0.2); }
+    .feature-icon {
+      width: 48px; height: 48px; border-radius: 14px;
+      background: rgba(0,229,160,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 16px;
+    }
+    .feature-card h3 { font-size: 17px; font-weight: 800; margin-bottom: 8px; }
+    .feature-card p { font-size: 14px; color: var(--text2); line-height: 1.6; }
+
+    /* ── Stats ── */
+    .stats-bar {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 48px 24px;
+    }
+    .stats-inner {
+      max-width: 800px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      text-align: center; gap: 24px;
+    }
+    .stat-num {
+      font-size: 42px; font-weight: 900; letter-spacing: -1px;
+      background: linear-gradient(90deg, var(--primary), var(--primary2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .stat-label { font-size: 14px; color: var(--text2); margin-top: 4px; }
+
+    /* ── Download ── */
+    .download-section {
+      text-align: center; padding: 80px 24px;
+      background: linear-gradient(180deg, var(--bg) 0%, rgba(0,229,160,0.03) 100%);
+    }
+    .download-section h2 {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 900; letter-spacing: -1px; margin-bottom: 16px;
+    }
+    .download-section p { color: var(--text2); margin-bottom: 36px; font-size: 16px; }
+    .play-badge {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: var(--card); border: 1px solid var(--border);
+      padding: 14px 28px; border-radius: 14px;
+      transition: border-color .2s;
+    }
+    .play-badge:hover { border-color: var(--primary); text-decoration: none; }
+    .play-badge-text { text-align: left; }
+    .play-badge-text .top { font-size: 11px; color: var(--text2); }
+    .play-badge-text .bottom { font-size: 18px; font-weight: 800; color: var(--text); }
+
+    /* ── Privacy Policy ── */
+    .privacy {
+      max-width: 760px; margin: 0 auto; padding: 80px 24px;
+    }
+    .privacy h2 {
+      font-size: 32px; font-weight: 900; letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+    .privacy .updated { color: var(--text2); font-size: 14px; margin-bottom: 40px; }
+    .privacy h3 { font-size: 18px; font-weight: 800; margin: 32px 0 10px; color: var(--primary); }
+    .privacy p, .privacy li { color: var(--text2); font-size: 15px; line-height: 1.8; margin-bottom: 12px; }
+    .privacy ul { padding-left: 20px; }
+    .privacy li { margin-bottom: 6px; }
+    .privacy a { color: var(--primary); }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 24px; text-align: center;
+    }
+    .footer-logo {
+      font-size: 22px; font-weight: 900; letter-spacing: -0.5px;
+      background: linear-gradient(90deg, var(--primary), var(--primary2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+    footer p { color: var(--text2); font-size: 14px; }
+    footer a { color: var(--text2); }
+    footer a:hover { color: var(--primary); }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .stats-inner { grid-template-columns: 1fr; }
+      .btn-ghost { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <div class="nav-logo">nourish</div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#download">Download</a>
+      <a href="#privacy">Privacy</a>
+      <a href="mailto:support.nourishlabs@gmail.com">Support</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-badge">Available on Android</div>
+    <h1>Eat smarter.<br /><span>Live better.</span></h1>
+    <p>Track your meals, plan your diet, and hit your health goals — all in one beautiful app.</p>
+    <a href="#download" class="btn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76c.3.17.64.24.98.2l13.84-11.9L14.36 8.4 3.18 23.76zm17.26-11.1c.37-.2.6-.6.6-1.02 0-.42-.23-.82-.6-1.02l-3.1-1.78-3.84 3.84 3.84 3.84 3.1-1.86zM.96.54C.6.76.37 1.16.37 1.6v20.8c0 .44.23.84.6 1.06l.12.1 11.66-11.66v-.28L1.06.44.96.54zm12.3 10.94l3.1-3.1-3.1-1.76-3.1 3.1 3.1 1.76z"/></svg>
+      Get on Google Play
+    </a>
+    <a href="#features" class="btn btn-ghost">See features</a>
+  </section>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stats-inner">
+      <div>
+        <div class="stat-num">1,000+</div>
+        <div class="stat-label">Meals in database</div>
+      </div>
+      <div>
+        <div class="stat-num">7-Day</div>
+        <div class="stat-label">Free trial</div>
+      </div>
+      <div>
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Private & secure</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Features -->
+  <section class="section" id="features">
+    <div class="section-label">Features</div>
+    <h2>Everything you need to eat well</h2>
+    <p class="section-sub">Nourish combines meal tracking, diet planning and nutrition education in one clean app.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🍽️</div>
+        <h3>Smart Meal Planner</h3>
+        <p>Plan breakfast, lunch, dinner and snacks for every day of the week. Search from 1,000+ meals across 20+ cuisines.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Calorie & Macro Tracking</h3>
+        <p>See your calories, protein, carbs and fat at a glance. Live dashboard updates as you log each meal.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🧮</div>
+        <h3>Diet Calculator</h3>
+        <p>Calculate your TDEE, BMI and ideal macros based on your goals — fat loss, muscle gain, or maintenance.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📷</div>
+        <h3>Barcode Scanner</h3>
+        <p>Scan any packaged food barcode to instantly log accurate nutritional information.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💧</div>
+        <h3>Water & Weight Tracking</h3>
+        <p>Log your daily water intake and body weight. See your weight trend over time with a visual chart.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌍</div>
+        <h3>20+ Cuisines</h3>
+        <p>Arabic, Italian, Mexican, Indian, Turkish, Greek, French and more — with authentic dishes and full nutrition data.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⭐</div>
+        <h3>Custom Meals</h3>
+        <p>Create and save your own meals with the built-in recipe builder. Your creations sync across your meal plan.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔔</div>
+        <h3>Meal Reminders</h3>
+        <p>Set daily push notifications to remind you to log your meals and stay on track with your goals.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👥</div>
+        <h3>Community Feed</h3>
+        <p>Share your meals and progress with the Nourish community. Like, comment and get inspired.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download -->
+  <section class="download-section" id="download">
+    <h2>Start your <span style="background:linear-gradient(90deg,#00e5a0,#00c9ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent">free 7-day trial</span></h2>
+    <p>No credit card required. Cancel anytime.</p>
+    <a href="https://play.google.com/store/apps/details?id=com.nourish.mealtracker" class="play-badge">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="#00e5a0"><path d="M3.18 23.76c.3.17.64.24.98.2l13.84-11.9L14.36 8.4 3.18 23.76zm17.26-11.1c.37-.2.6-.6.6-1.02 0-.42-.23-.82-.6-1.02l-3.1-1.78-3.84 3.84 3.84 3.84 3.1-1.86zM.96.54C.6.76.37 1.16.37 1.6v20.8c0 .44.23.84.6 1.06l.12.1 11.66-11.66v-.28L1.06.44.96.54zm12.3 10.94l3.1-3.1-3.1-1.76-3.1 3.1 3.1 1.76z"/></svg>
+      <div class="play-badge-text">
+        <div class="top">GET IT ON</div>
+        <div class="bottom">Google Play</div>
+      </div>
+    </a>
+  </section>
+
+  <!-- Privacy Policy -->
+  <section class="privacy" id="privacy">
+    <h2>Privacy Policy</h2>
+    <p class="updated">Last updated: May 2026</p>
+
+    <p>Nourish ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use our mobile application.</p>
+
+    <h3>Information We Collect</h3>
+    <p>We collect information you provide directly to us, including:</p>
+    <ul>
+      <li>Name and email address (for account creation)</li>
+      <li>Body metrics you choose to enter: weight, height, age, and health goals</li>
+      <li>Meal and nutrition data you log in the app</li>
+      <li>Water intake and weight log entries</li>
+      <li>Custom meals and recipes you create</li>
+    </ul>
+
+    <h3>How We Use Your Information</h3>
+    <p>We use the information we collect to:</p>
+    <ul>
+      <li>Provide, maintain, and improve the Nourish app</li>
+      <li>Calculate personalized nutrition goals and recommendations</li>
+      <li>Send meal reminder notifications (only if you enable them)</li>
+      <li>Respond to your support requests</li>
+    </ul>
+
+    <h3>Data Storage</h3>
+    <p>Your personal data is stored locally on your device using secure on-device storage. We do not transmit your meal logs, weight entries, or personal metrics to external servers. Your account credentials are handled securely.</p>
+
+    <h3>Subscriptions & Payments</h3>
+    <p>Nourish offers optional paid subscriptions processed entirely through Google Play Billing. We do not collect, store, or have access to your payment card information. All billing is managed by Google. You can manage or cancel your subscription at any time through your Google Play account settings.</p>
+
+    <h3>Camera & Photo Library</h3>
+    <p>The app requests camera access solely for the barcode scanner feature, which allows you to scan packaged food items. We do not store, upload, or transmit any photos or camera data.</p>
+
+    <h3>Notifications</h3>
+    <p>We may send local push notifications to remind you to log your meals if you enable this feature. These are scheduled entirely on your device and no notification data is sent to our servers.</p>
+
+    <h3>Third-Party Services</h3>
+    <p>We use the following third-party services:</p>
+    <ul>
+      <li><strong>RevenueCat</strong> — for subscription management. RevenueCat may collect anonymized purchase data. See their privacy policy at <a href="https://www.revenuecat.com/privacy" target="_blank">revenuecat.com/privacy</a>.</li>
+      <li><strong>Expo / React Native</strong> — the app framework. See <a href="https://expo.dev/privacy" target="_blank">expo.dev/privacy</a>.</li>
+    </ul>
+
+    <h3>Children's Privacy</h3>
+    <p>Nourish is not directed to children under the age of 13. We do not knowingly collect personal information from children under 13. If you believe a child has provided us with personal information, please contact us and we will delete it.</p>
+
+    <h3>Data Deletion</h3>
+    <p>You can delete all your data at any time by logging out of the app, which removes all locally stored information from your device. To request deletion of any account data, email us at <a href="mailto:support.nourishlabs@gmail.com">support.nourishlabs@gmail.com</a>.</p>
+
+    <h3>Changes to This Policy</h3>
+    <p>We may update this Privacy Policy from time to time. We will notify you of any changes by updating the "Last updated" date at the top of this page.</p>
+
+    <h3>Contact Us</h3>
+    <p>If you have any questions about this Privacy Policy, please contact us at:<br/>
+    <a href="mailto:support.nourishlabs@gmail.com">support.nourishlabs@gmail.com</a></p>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-logo">nourish</div>
+    <p>
+      <a href="#features">Features</a> &nbsp;·&nbsp;
+      <a href="#privacy">Privacy Policy</a> &nbsp;·&nbsp;
+      <a href="mailto:support.nourishlabs@gmail.com">support.nourishlabs@gmail.com</a>
+    </p>
+    <p style="margin-top:12px">© 2026 Nourish. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

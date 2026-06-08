@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<style>
+  @page { size: A4; margin: 28mm 18mm 22mm 18mm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #1c1c24;
+    font-size: 10.5pt;
+    line-height: 1.5;
+  }
+  .cover {
+    page-break-after: always;
+    height: 245mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .cover .eyebrow {
+    color: #b08d57;
+    letter-spacing: 3px;
+    font-size: 9pt;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 18px;
+  }
+  .cover h1 {
+    font-size: 30pt;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 14px;
+    color: #14141c;
+  }
+  .cover p.sub {
+    font-size: 11.5pt;
+    color: #5a5a68;
+    max-width: 380px;
+    margin-bottom: 36px;
+  }
+  .cover .brief {
+    border-top: 1px solid #e2e0db;
+    padding-top: 22px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 40px;
+  }
+  .cover .brief div span.label {
+    display: block;
+    font-size: 8pt;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #9b9ba8;
+    margin-bottom: 4px;
+  }
+  .cover .brief div span.value {
+    font-size: 12pt;
+    font-weight: 700;
+    color: #14141c;
+  }
+  .cover .footer-note {
+    margin-top: 50px;
+    font-size: 8.5pt;
+    color: #9b9ba8;
+  }
+
+  h2.section {
+    font-size: 8.5pt;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    color: #b08d57;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  h2.intro-title {
+    font-size: 16pt;
+    font-weight: 800;
+    margin-bottom: 12px;
+    color: #14141c;
+  }
+  p.intro-text {
+    color: #5a5a68;
+    margin-bottom: 22px;
+    max-width: 520px;
+  }
+
+  .card {
+    border: 1px solid #e2e0db;
+    border-radius: 4px;
+    padding: 22px 24px;
+    margin-bottom: 16px;
+    page-break-inside: avoid;
+  }
+  .card .card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid #ece9e3;
+    padding-bottom: 14px;
+    margin-bottom: 16px;
+  }
+  .card .rank {
+    display: inline-block;
+    font-size: 8pt;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #b08d57;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .card .name {
+    font-size: 15pt;
+    font-weight: 800;
+    color: #14141c;
+  }
+  .card .location {
+    font-size: 9.5pt;
+    color: #5a5a68;
+    margin-top: 2px;
+  }
+  .card .roi-badge {
+    text-align: right;
+  }
+  .card .roi-badge .num {
+    font-size: 20pt;
+    font-weight: 800;
+    color: #1f7a4d;
+  }
+  .card .roi-badge .lbl {
+    font-size: 7.5pt;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #9b9ba8;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 28px;
+    margin-bottom: 14px;
+  }
+  .grid .item span.label {
+    display: block;
+    font-size: 7.5pt;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #9b9ba8;
+    margin-bottom: 3px;
+  }
+  .grid .item span.value {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #1c1c24;
+  }
+  .why {
+    background: #f8f6f2;
+    border-left: 3px solid #b08d57;
+    padding: 10px 14px;
+    font-size: 9.5pt;
+    color: #44444f;
+    border-radius: 0 3px 3px 0;
+  }
+  .why strong { color: #14141c; }
+
+  table.compare {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 6px;
+  }
+  table.compare th {
+    text-align: left;
+    font-size: 7.5pt;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #9b9ba8;
+    font-weight: 700;
+    padding: 8px 10px;
+    border-bottom: 1px solid #e2e0db;
+  }
+  table.compare td {
+    font-size: 9.5pt;
+    padding: 10px 10px;
+    border-bottom: 1px solid #ece9e3;
+    color: #2c2c36;
+  }
+  table.compare td.proj { font-weight: 700; color: #14141c; }
+  table.compare td.roi { font-weight: 800; color: #1f7a4d; }
+
+  .disclaimer {
+    margin-top: 26px;
+    font-size: 8pt;
+    color: #9b9ba8;
+    border-top: 1px solid #e2e0db;
+    padding-top: 12px;
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="eyebrow">Investment Property Shortlist — UAE</div>
+  <h1>Three Off-Plan Opportunities<br/>Built for Growth &amp; Yield</h1>
+  <p class="sub">A curated shortlist matched to your investment brief — selected for capital appreciation potential and strong rental returns in Dubai's highest-momentum districts.</p>
+  <div class="brief">
+    <div><span class="label">Budget</span><span class="value">AED 600,000</span></div>
+    <div><span class="label">Target Net ROI</span><span class="value">~10% annually</span></div>
+    <div><span class="label">Investment Goal</span><span class="value">Capital Appreciation + Yield</span></div>
+    <div><span class="label">Property Stage</span><span class="value">Off-Plan</span></div>
+  </div>
+  <div class="footer-note">Prepared for your review · Figures are estimates based on current market data and are subject to change · June 2026</div>
+</div>
+
+<!-- INTRO -->
+<h2 class="section">Shortlist Overview</h2>
+<h2 class="intro-title">Selected for Growth, Yield &amp; Liquidity</h2>
+<p class="intro-text">Each option below was selected from Dubai's top-performing investment districts, balancing entry price, projected rental yield, and area-level appreciation drivers — giving a clear path toward a ~10% combined annual return.</p>
+
+<!-- OPTION 1 -->
+<div class="card">
+  <div class="card-head">
+    <div>
+      <span class="rank">Option 01 · Highest Appreciation Potential</span>
+      <div class="name">Azizi Venice</div>
+      <div class="location">Dubai South — near Al Maktoum International Airport &amp; Expo City</div>
+    </div>
+    <div class="roi-badge">
+      <div class="num">~9–10%</div>
+      <div class="lbl">Est. Annual ROI</div>
+    </div>
+  </div>
+  <div class="grid">
+    <div class="item"><span class="label">Developer</span><span class="value">Azizi Developments</span></div>
+    <div class="item"><span class="label">Price Range</span><span class="value">From AED 480,000 (studio / 1BR)</span></div>
+    <div class="item"><span class="label">Payment Plan</span><span class="value">50/50 — 50% during construction, 50% on handover</span></div>
+    <div class="item"><span class="label">Layout</span><span class="value">Studio &amp; 1-Bedroom waterfront apartments, ~370–650 sq.ft</span></div>
+    <div class="item"><span class="label">Handover</span><span class="value">Q1 2026</span></div>
+    <div class="item"><span class="label">Yield Profile</span><span class="value">Net rental yield 7.5–9.2%</span></div>
+  </div>
+  <div class="why"><strong>Why it stands out —</strong> Sits inside the $35B Al Maktoum Airport expansion zone, which is reshaping Dubai South into a major residential and logistics hub. Early-stage entry pricing here carries the strongest long-term appreciation story on this list, alongside a genuine waterfront lifestyle draw for tenants.</div>
+</div>
+
+<!-- OPTION 2 -->
+<div class="card">
+  <div class="card-head">
+    <div>
+      <span class="rank">Option 02 · Best Balance of Yield &amp; Liquidity</span>
+      <div class="name">Aria Heights</div>
+      <div class="location">Jumeirah Village Circle (JVC), Dubai</div>
+    </div>
+    <div class="roi-badge">
+      <div class="num">~9%</div>
+      <div class="lbl">Est. Annual ROI</div>
+    </div>
+  </div>
+  <div class="grid">
+    <div class="item"><span class="label">Developer</span><span class="value">SRG Properties</span></div>
+    <div class="item"><span class="label">Price Range</span><span class="value">From AED 576,000 (studio / 1BR)</span></div>
+    <div class="item"><span class="label">Payment Plan</span><span class="value">45/55 — 45% during construction, 55% on handover</span></div>
+    <div class="item"><span class="label">Layout</span><span class="value">Studio &amp; 1-Bedroom contemporary apartments, ~400–700 sq.ft</span></div>
+    <div class="item"><span class="label">Handover</span><span class="value">2026 (per developer schedule)</span></div>
+    <div class="item"><span class="label">Yield Profile</span><span class="value">Net rental yield 7.5–9.2%</span></div>
+  </div>
+  <div class="why"><strong>Why it stands out —</strong> JVC is Dubai's most liquid mid-market community — over 130 active projects and 60+ developers create constant resale and rental demand. This is the easiest of the three to exit or re-let quickly, while still delivering near-double-digit yields.</div>
+</div>
+
+<!-- OPTION 3 -->
+<div class="card">
+  <div class="card-head">
+    <div>
+      <span class="rank">Option 03 · Highest Rental Yield</span>
+      <div class="name">Reportage Verdana 8</div>
+      <div class="location">Dubai Investments Park (DIP), Dubai</div>
+    </div>
+    <div class="roi-badge">
+      <div class="num">~10%</div>
+      <div class="lbl">Est. Annual ROI</div>
+    </div>
+  </div>
+  <div class="grid">
+    <div class="item"><span class="label">Developer</span><span class="value">Reportage Properties</span></div>
+    <div class="item"><span class="label">Price Range</span><span class="value">From AED ~420,000–580,000 (studio / 1BR)</span></div>
+    <div class="item"><span class="label">Payment Plan</span><span class="value">Flexible developer plan — typically 20% down, balance during construction &amp; on handover</span></div>
+    <div class="item"><span class="label">Layout</span><span class="value">Studio, 1 &amp; 2-Bedroom apartments + townhouse options</span></div>
+    <div class="item"><span class="label">Handover</span><span class="value">2026–2027 (per developer schedule)</span></div>
+    <div class="item"><span class="label">Yield Profile</span><span class="value">Gross rental yield 9–10%</span></div>
+  </div>
+  <div class="why"><strong>Why it stands out —</strong> DIP delivers some of Dubai's highest gross yields, fueled by constant tenant demand from its free-zone workforce, universities, and the upcoming Metro Blue Line extension. The strongest pure income play of the three, with appreciation upside as the metro link nears completion.</div>
+</div>
+
+<!-- COMPARISON -->
+<h2 class="section" style="margin-top: 6px;">At a Glance</h2>
+<table class="compare">
+  <tr>
+    <th>Project</th>
+    <th>Area</th>
+    <th>Entry Price</th>
+    <th>Payment Plan</th>
+    <th>Est. ROI</th>
+  </tr>
+  <tr>
+    <td class="proj">Azizi Venice</td>
+    <td>Dubai South</td>
+    <td>From AED 480,000</td>
+    <td>50/50</td>
+    <td class="roi">~9–10%</td>
+  </tr>
+  <tr>
+    <td class="proj">Aria Heights</td>
+    <td>JVC</td>
+    <td>From AED 576,000</td>
+    <td>45/55</td>
+    <td class="roi">~9%</td>
+  </tr>
+  <tr>
+    <td class="proj">Reportage Verdana 8</td>
+    <td>DIP</td>
+    <td>From AED ~420,000</td>
+    <td>20% down + balance plan</td>
+    <td class="roi">~10%</td>
+  </tr>
+</table>
+
+<div class="disclaimer">
+  Figures shown are estimates based on publicly available market data as of June 2026 and are intended for discussion purposes only. Pricing, payment terms, and yields vary by unit, developer offer, and market conditions at the time of booking — final terms should be confirmed directly with the developer prior to reservation.
+</div>
+
+</body>
+</html>

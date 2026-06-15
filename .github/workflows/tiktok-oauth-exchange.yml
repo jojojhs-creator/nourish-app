@@ -63,12 +63,6 @@ jobs:
 
           result = json.loads(body)
           refresh_token = result.get("refresh_token", "")
-          if refresh_token:
-              print(f"::add-mask::{refresh_token}")
-
-          access_token = result.get("access_token", "")
-          if access_token:
-              print(f"::add-mask::{access_token}")
 
           with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as f:
               f.write("## TikTok Token Exchange Result\n\n")

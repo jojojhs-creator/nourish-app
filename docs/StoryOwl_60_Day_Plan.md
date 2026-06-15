@@ -8,7 +8,7 @@ freely. Mark an episode `Done` once `/storyowl-daily` has generated and posted i
 |---|---|---|---|---|---|
 | 1 | 1 | EN | Luna the Sleepy Bunny | A bunny who can't fall asleep learns a calming bedtime routine from her forest friends. | Done |
 | 2 | 2 | AR | النجمة الصغيرة (The Little Star) | A small star afraid of the dark learns that even small lights matter. | Done |
-| 3 | 3 | EN | _TBD_ | _TBD_ | Not started |
+| 3 | 3 | EN | Theo's Quiet Night | A nervous little hedgehog who fears every nighttime sound is comforted by a tiny firefly friend, learning that even scary sounds can feel cozy with a friend nearby. | Done |
 | 4 | 4 | AR | _TBD_ | _TBD_ | Not started |
 | 5 | 5 | EN | _TBD_ | _TBD_ | Not started |
 

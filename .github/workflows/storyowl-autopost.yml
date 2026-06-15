@@ -1,0 +1,72 @@
+name: StoryOwl Auto-Post
+
+on:
+  repository_dispatch:
+    types: [storyowl_video_ready]
+  workflow_dispatch:
+    inputs:
+      video_url:
+        description: "URL of the finished episode video (e.g. Cloudinary MP4 URL)"
+        required: true
+        type: string
+      youtube_title:
+        description: "YouTube title"
+        required: false
+        type: string
+      youtube_description:
+        description: "YouTube description"
+        required: false
+        type: string
+      youtube_tags:
+        description: "Comma-separated YouTube tags"
+        required: false
+        type: string
+      tiktok_caption:
+        description: "TikTok caption (with hashtags)"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  autopost:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: scripts/storyowl/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r scripts/storyowl/requirements.txt
+
+      - name: Run StoryOwl autopost orchestrator
+        env:
+          VIDEO_URL: ${{ github.event.client_payload.video_url || inputs.video_url }}
+          YOUTUBE_TITLE: ${{ github.event.client_payload.youtube_title || inputs.youtube_title }}
+          YOUTUBE_DESCRIPTION: ${{ github.event.client_payload.youtube_description || inputs.youtube_description }}
+          YOUTUBE_TAGS: ${{ github.event.client_payload.youtube_tags || inputs.youtube_tags }}
+          TIKTOK_CAPTION: ${{ github.event.client_payload.tiktok_caption || inputs.tiktok_caption }}
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
+          TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
+          TIKTOK_REFRESH_TOKEN: ${{ secrets.TIKTOK_REFRESH_TOKEN }}
+          TIKTOK_POST_MODE: ${{ vars.TIKTOK_POST_MODE }}
+          INCLUDE_VIDEO_IN_ARTIFACT: ${{ vars.INCLUDE_VIDEO_IN_ARTIFACT }}
+        run: python scripts/storyowl/orchestrator.py
+
+      - name: Upload results artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: storyowl-result-${{ github.run_id }}
+          path: out/
+          retention-days: 14

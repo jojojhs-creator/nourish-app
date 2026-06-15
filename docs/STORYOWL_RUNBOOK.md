@@ -48,10 +48,12 @@ Use `generate_image` (nano_banana_2 model) to create the episode thumbnail.
 
 ### 5. Upload assets to Cloudinary
 
-Upload all 5 files via the Cloudinary MCP `upload-asset` tool with consistent names:
+Upload all 6 files via the Cloudinary MCP `upload-asset` tool with consistent names:
 
 - `storyowl_ep<X>_clip1`, `storyowl_ep<X>_clip2`, `storyowl_ep<X>_clip3`, `storyowl_ep<X>_clip4`
 - `storyowl_ep<X>_voice`
+- `storyowl_ep<X>_thumb` (the nano_banana_2 thumbnail from step 4) - its Cloudinary URL
+  becomes `thumbnail_url` in step 8
 
 ### 6. Merge into the final video (Cloudinary)
 
@@ -72,6 +74,12 @@ Write, for this episode:
   bedtime-story hashtags as a fallback, but episode-specific tags from here are better)
 - `tiktok_caption` - hook + inline hashtags, ≤2200 chars
 
+> **TikTok caption note**: TikTok's "send to inbox" API (used in `DRAFT` mode) doesn't
+> accept a caption - this is a TikTok platform limitation. The `tiktok_caption` written
+> here is still generated, included in the auto-post job summary, and applied
+> automatically once `TIKTOK_POST_MODE` is `SELF_ONLY` or `PUBLIC_TO_EVERYONE`. In
+> `DRAFT` mode, copy it from the job summary when finishing the post in the TikTok app.
+
 ### 8. Trigger auto-posting
 
 POST to GitHub's `repository_dispatch` API to hand off to Tier 2:
@@ -86,6 +94,7 @@ curl -X POST \
     "event_type": "storyowl_video_ready",
     "client_payload": {
       "video_url": "<cloudinary mp4 url>",
+      "thumbnail_url": "<cloudinary thumbnail image url>",
       "youtube_title": "<title>",
       "youtube_description": "<description>",
       "youtube_tags": "<tag1, tag2, tag3>",

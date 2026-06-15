@@ -10,6 +10,13 @@ TIKTOK_POST_MODE repo variable - no code changes needed.
                        (private Direct Post, available pre-audit)
   PUBLIC_TO_EVERYONE -> /v2/post/publish/video/init/ with privacy_level=PUBLIC_TO_EVERYONE
                        (requires approved Content Posting API access)
+
+Caption and cover image: TikTok's inbox-init endpoint (DRAFT mode) does not accept
+`post_info`, so the generated caption cannot be attached to draft/inbox uploads - this
+is a TikTok API limitation, not something this script can work around. The caption is
+still generated and surfaced in the workflow summary so it can be pasted in manually.
+Once `TIKTOK_POST_MODE` is `SELF_ONLY` or `PUBLIC_TO_EVERYONE` (Direct Post), the caption
+and a video-frame cover image (`video_cover_timestamp_ms`) are set automatically.
 """
 
 import os
@@ -25,6 +32,10 @@ STATUS_URL = f"{API_BASE}/v2/post/publish/status/fetch/"
 
 DEFAULT_POST_MODE = "DRAFT"
 VALID_POST_MODES = {"DRAFT", "SELF_ONLY", "PUBLIC_TO_EVERYONE"}
+
+# Frame (in ms into the video) TikTok uses as the cover/thumbnail for Direct Post
+# uploads. Skips the first frame to avoid a black/blank cover.
+DEFAULT_COVER_TIMESTAMP_MS = 1000
 
 STATUS_POLL_INTERVAL_SECONDS = 5
 STATUS_POLL_MAX_ATTEMPTS = 24  # ~2 minutes
@@ -78,6 +89,7 @@ def _init_upload(access_token: str, video_size: int, caption: str, post_mode: st
                 "title": caption,
                 "privacy_level": post_mode,
                 "disable_duplicate_check": True,
+                "video_cover_timestamp_ms": DEFAULT_COVER_TIMESTAMP_MS,
             },
             "source_info": source_info,
         }

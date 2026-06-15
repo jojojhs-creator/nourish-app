@@ -25,6 +25,7 @@ OUT_DIR = "out"
 def get_inputs() -> dict:
     parser = argparse.ArgumentParser()
     parser.add_argument("--video-url")
+    parser.add_argument("--thumbnail-url")
     parser.add_argument("--youtube-title")
     parser.add_argument("--youtube-description")
     parser.add_argument("--youtube-tags")
@@ -40,6 +41,7 @@ def get_inputs() -> dict:
 
     return {
         "video_url": video_url,
+        "thumbnail_url": args.thumbnail_url or os.environ.get("THUMBNAIL_URL", ""),
         "youtube_title": args.youtube_title or os.environ.get("YOUTUBE_TITLE", ""),
         "youtube_description": args.youtube_description or os.environ.get("YOUTUBE_DESCRIPTION", ""),
         "youtube_tags": tags,
@@ -60,7 +62,12 @@ def write_outputs(inputs: dict, meta: dict, results: dict) -> None:
 
     yt = results["youtube"]
     if yt["status"] == "uploaded":
-        lines.append(f"| YouTube | uploaded | {yt['url']} |")
+        detail = yt["url"]
+        if yt.get("thumbnail") == "uploaded":
+            detail += " (custom thumbnail set)"
+        elif yt.get("thumbnail") == "error":
+            detail += f" (thumbnail not set: {yt.get('thumbnail_error', '')})"
+        lines.append(f"| YouTube | uploaded | {detail} |")
     elif yt["status"] == "dry_run":
         lines.append("| YouTube | dry run (no credentials configured) | see generated metadata below |")
     else:
@@ -96,6 +103,13 @@ def main() -> None:
 
     video_path = downloader.download_video(inputs["video_url"])
 
+    thumbnail_path = None
+    if inputs["thumbnail_url"]:
+        try:
+            thumbnail_path = downloader.download_thumbnail(inputs["thumbnail_url"])
+        except Exception:  # noqa: BLE001 - thumbnail is optional, don't block posting
+            thumbnail_path = None
+
     meta = {
         "youtube": metadata.ensure_youtube_metadata(
             inputs["youtube_title"], inputs["youtube_description"], inputs["youtube_tags"]
@@ -113,6 +127,7 @@ def main() -> None:
                 meta["youtube"]["title"],
                 meta["youtube"]["description"],
                 meta["youtube"]["tags"],
+                thumbnail_path=thumbnail_path,
             )
             results["youtube"] = {"status": "uploaded", **upload_result}
         except Exception as exc:  # noqa: BLE001 - report and continue with TikTok

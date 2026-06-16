@@ -33,14 +33,16 @@ def get_inputs() -> dict:
     args = parser.parse_args()
 
     video_url = args.video_url or os.environ.get("VIDEO_URL", "")
-    if not video_url:
-        sys.exit("VIDEO_URL is required (set the env var or pass --video-url)")
+    video_file = os.environ.get("VIDEO_FILE", "")  # local path — skips download
+    if not video_url and not video_file:
+        sys.exit("VIDEO_URL or VIDEO_FILE is required")
 
     tags_raw = args.youtube_tags or os.environ.get("YOUTUBE_TAGS", "")
     tags = [t.strip() for t in tags_raw.split(",") if t.strip()]
 
     return {
         "video_url": video_url,
+        "video_file": video_file,
         "thumbnail_url": args.thumbnail_url or os.environ.get("THUMBNAIL_URL", ""),
         "youtube_title": args.youtube_title or os.environ.get("YOUTUBE_TITLE", ""),
         "youtube_description": args.youtube_description or os.environ.get("YOUTUBE_DESCRIPTION", ""),
@@ -101,7 +103,7 @@ def write_outputs(inputs: dict, meta: dict, results: dict) -> None:
 def main() -> None:
     inputs = get_inputs()
 
-    video_path = downloader.download_video(inputs["video_url"])
+    video_path = inputs["video_file"] if inputs.get("video_file") else downloader.download_video(inputs["video_url"])
 
     thumbnail_path = None
     if inputs["thumbnail_url"]:

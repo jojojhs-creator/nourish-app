@@ -1,8 +1,10 @@
 # nourish-app
 
 Repo root is mostly a static site (`index.html`, `storyowl-privacy.html`,
-`storyowl-terms.html`). The active project is **StoryOwl**, an automated bedtime-story
-Shorts/TikTok channel.
+`storyowl-terms.html`). The active project is **StoryOwl**, an automated kids
+Shorts/TikTok channel — bedtime stories, fables, educational shorts, adventure
+micro-stories, funny kids stories, and cultural folklore (see content categories in
+`docs/StoryOwl_60_Day_Plan.md`).
 
 ## StoryOwl automation overview
 

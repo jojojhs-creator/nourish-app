@@ -16,23 +16,48 @@ run manually step by step.
 
 ### 1. Write the episode script
 
+**First**: confirm the exact episode to produce by reading the `docs/StoryOwl_60_Day_Plan.md`
+table row for this day — use the Title and Premise/Moral from that row verbatim. Do NOT
+invent a different story.
+
 Write a clip-by-clip script for the 1-minute episode (4 × 15s clips):
 
 - **Clip 1** — StoryOwl opens a glowing storybook by candlelight, visibly talking
   (intro / hook for the day's story).
 - **Clips 2-3** — the story itself, with brand-new characters for this episode.
-- **Clip 4** — StoryOwl shares the moral, says goodnight, blows out the candle.
+- **Clip 4** — StoryOwl delivers the closing and closes the book.
+
+> **Owl naming rule**: The host character is always called **"StoryOwl"** (or simply
+> "the owl") in the script and voiceover. The reference element description may contain
+> the name "Cleo" — ignore it. Never use "Cleo" in the script or narration.
+
+**Adapt Clip 4's closing by content type** (check the "Type" column in the plan):
+
+| Type | Clip 4 closing |
+|---|---|
+| Bedtime | StoryOwl shares the moral, says goodnight, blows out the candle |
+| Fable | StoryOwl states the moral and asks viewers: "What would *you* have done?" |
+| Educational | StoryOwl restates the fact and invites viewers to share it with a friend |
+| Adventure | StoryOwl cheers the hero's triumph and teases "what happens next time" |
+| Funny | StoryOwl laughs, wraps up, and invites viewers to share with someone who needs a smile |
+| Folklore | StoryOwl closes the ancient book and says "this story has been told for a thousand years — now you're part of it" |
 
 If the episode is **Arabic**, write the full script **with tashkeel (diacritics)** -
 the "Nour" TTS voice mispronounces undiacritized Arabic.
 
 ### 2. Generate the 4 video clips (Higgsfield)
 
-Use `generate_video` (Seedance 2.0 FAST, 9:16, 480p) for each clip:
+Use `generate_video` with these exact params for **every clip**:
+- `model: "video_standard"` (Seedance 2.0)
+- `params.mode: "fast"`
+- `params.resolution: "480p"`
+- `params.aspect_ratio: "9:16"` (Shorts/TikTok portrait)
+- `params.duration: 15` ← **required — do not omit; default is 4 s which gives a 16 s video**
 
-- Clips 1 & 4: include the saved **"StoryOwl" reference element** (look it up via
-  `show_reference_elements` / `show_characters`) so the owl stays visually consistent.
-- Clips 2-3: new characters per episode, matching the script's scene descriptions.
+Per-clip rules:
+- **Clips 1 & 4**: embed `<<<e5996a7c-1d8d-4531-9172-5eee2c844404>>>` in the prompt so
+  the StoryOwl character stays visually consistent. Do **not** mention "Cleo" in the prompt.
+- **Clips 2-3**: new characters per episode, matching the script's scene descriptions.
 
 ### 3. Generate the voiceover (Higgsfield inworld TTS)
 
@@ -70,8 +95,9 @@ Write, for this episode:
 
 - `youtube_title` - catchy, ≤100 chars
 - `youtube_description` - a few sentences about the story + moral, include `#Shorts`
-- `youtube_tags` - comma-separated topical tags (the orchestrator also adds curated
-  bedtime-story hashtags as a fallback, but episode-specific tags from here are better)
+- `youtube_tags` - comma-separated topical tags suited to the content type — e.g.
+  `#BedtimeStory #KidsStories #Shorts` for bedtime, `#FableForKids #MoralStory` for
+  fables, `#LearnWithStoryOwl #KidsFacts` for educational, `#KidsAdventure` for adventure
 - `tiktok_caption` - hook + inline hashtags, ≤2200 chars
 
 > **TikTok caption note**: TikTok's "send to inbox" API (used in `DRAFT` mode) doesn't

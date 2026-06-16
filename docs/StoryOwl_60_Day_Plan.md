@@ -22,7 +22,8 @@ once `/storyowl-daily` has generated and posted it.
 | 1 | 1 | EN | Bedtime | Luna the Sleepy Bunny | A bunny who can't fall asleep learns a calming bedtime routine from her forest friends. | Done |
 | 2 | 2 | AR | Bedtime | النجمة الصغيرة (The Little Star) | A small star afraid of the dark learns that even small lights matter. | Done |
 | 3 | 3 | EN | Bedtime | Theo's Quiet Night | A nervous hedgehog who fears every nighttime sound is comforted by a tiny firefly friend, learning that scary sounds can feel cozy with company nearby. | Done |
-| 4 | 4 | AR | Fable | الأسد والفأر (The Lion and the Mouse) | A powerful lion who laughs at a tiny mouse is later saved by him — even the smallest friend can be the greatest hero. | Not started |
+| 4 | 4 | AR | Bedtime | القمر وسامي (The Moon and Sami) | Sami the little bunny was afraid of the dark — the moon whispers that darkness is a warm blanket for the stars. | Done |
+| 4b | - | AR | Fable | الأسد والفأر (The Lion and the Mouse) | A powerful lion who laughs at a tiny mouse is later saved by him — even the smallest friend can be the greatest hero. | Not started |
 | 5 | 5 | EN | Educational | The Secret Life of Seeds | A little seed is scared of the dark underground, but learns that growing takes patience and trust — what looks like nothing is really everything happening. | Not started |
 | 6 | 6 | AR | Bedtime | نجوم الليل (Stars of the Night) | A child counts stars with her grandfather and learns each one has a name, drifting peacefully to sleep under the safest sky. | Not started |
 | 7 | 7 | EN | Adventure | The Tiny Explorer | A curious snail sets out to find the end of the garden and discovers the world is so full of wonders she never wants to stop exploring. | Not started |

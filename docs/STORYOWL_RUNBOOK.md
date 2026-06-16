@@ -21,7 +21,18 @@ Write a clip-by-clip script for the 1-minute episode (4 × 15s clips):
 - **Clip 1** — StoryOwl opens a glowing storybook by candlelight, visibly talking
   (intro / hook for the day's story).
 - **Clips 2-3** — the story itself, with brand-new characters for this episode.
-- **Clip 4** — StoryOwl shares the moral, says goodnight, blows out the candle.
+- **Clip 4** — StoryOwl delivers the closing and closes the book.
+
+**Adapt Clip 4's closing by content type** (check the "Type" column in the plan):
+
+| Type | Clip 4 closing |
+|---|---|
+| Bedtime | StoryOwl shares the moral, says goodnight, blows out the candle |
+| Fable | StoryOwl states the moral and asks viewers: "What would *you* have done?" |
+| Educational | StoryOwl restates the fact and invites viewers to share it with a friend |
+| Adventure | StoryOwl cheers the hero's triumph and teases "what happens next time" |
+| Funny | StoryOwl laughs, wraps up, and invites viewers to share with someone who needs a smile |
+| Folklore | StoryOwl closes the ancient book and says "this story has been told for a thousand years — now you're part of it" |
 
 If the episode is **Arabic**, write the full script **with tashkeel (diacritics)** -
 the "Nour" TTS voice mispronounces undiacritized Arabic.
@@ -70,8 +81,9 @@ Write, for this episode:
 
 - `youtube_title` - catchy, ≤100 chars
 - `youtube_description` - a few sentences about the story + moral, include `#Shorts`
-- `youtube_tags` - comma-separated topical tags (the orchestrator also adds curated
-  bedtime-story hashtags as a fallback, but episode-specific tags from here are better)
+- `youtube_tags` - comma-separated topical tags suited to the content type — e.g.
+  `#BedtimeStory #KidsStories #Shorts` for bedtime, `#FableForKids #MoralStory` for
+  fables, `#LearnWithStoryOwl #KidsFacts` for educational, `#KidsAdventure` for adventure
 - `tiktok_caption` - hook + inline hashtags, ≤2200 chars
 
 > **TikTok caption note**: TikTok's "send to inbox" API (used in `DRAFT` mode) doesn't

@@ -1,22 +1,15 @@
-"""Download the finished episode video to a local file."""
+"""Download episode assets (video, thumbnail) to local files."""
 
 import os
 
 import requests
 
 
-def download_video(url: str, dest_dir: str = "/tmp", filename: str = "storyowl_video.mp4") -> str:
-    """Stream-download `url` to `dest_dir/filename` and return the local path."""
-    if not url:
-        raise ValueError("video_url is required")
-
-    os.makedirs(dest_dir, exist_ok=True)
-    dest_path = os.path.join(dest_dir, filename)
-
+def _stream_download(url: str, dest_path: str, expected_content_types: tuple[str, ...]) -> str:
     with requests.get(url, stream=True, timeout=120) as response:
         response.raise_for_status()
         content_type = response.headers.get("Content-Type", "")
-        if "video" not in content_type and "octet-stream" not in content_type:
+        if not any(t in content_type for t in expected_content_types):
             raise ValueError(
                 f"Unexpected content-type '{content_type}' when downloading {url}"
             )
@@ -27,3 +20,21 @@ def download_video(url: str, dest_dir: str = "/tmp", filename: str = "storyowl_v
                     f.write(chunk)
 
     return dest_path
+
+
+def download_video(url: str, dest_dir: str = "/tmp", filename: str = "storyowl_video.mp4") -> str:
+    """Stream-download `url` to `dest_dir/filename` and return the local path."""
+    if not url:
+        raise ValueError("video_url is required")
+
+    os.makedirs(dest_dir, exist_ok=True)
+    return _stream_download(url, os.path.join(dest_dir, filename), ("video", "octet-stream"))
+
+
+def download_thumbnail(url: str, dest_dir: str = "/tmp", filename: str = "storyowl_thumbnail.jpg") -> str:
+    """Stream-download a thumbnail image `url` to `dest_dir/filename` and return the local path."""
+    if not url:
+        raise ValueError("thumbnail_url is required")
+
+    os.makedirs(dest_dir, exist_ok=True)
+    return _stream_download(url, os.path.join(dest_dir, filename), ("image", "octet-stream"))

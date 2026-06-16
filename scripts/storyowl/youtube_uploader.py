@@ -32,11 +32,17 @@ def build_credentials() -> Credentials:
     )
 
 
+def set_thumbnail(youtube, video_id: str, thumbnail_path: str) -> None:
+    media = MediaFileUpload(thumbnail_path, resumable=True)
+    youtube.thumbnails().set(videoId=video_id, media_body=media).execute()
+
+
 def upload_video(
     video_path: str,
     title: str,
     description: str,
     tags: list[str],
+    thumbnail_path: str | None = None,
     made_for_kids: bool = True,
 ) -> dict:
     credentials = build_credentials()
@@ -63,4 +69,14 @@ def upload_video(
         status, response = request.next_chunk()
 
     video_id = response["id"]
-    return {"video_id": video_id, "url": f"https://youtube.com/shorts/{video_id}"}
+    result = {"video_id": video_id, "url": f"https://youtube.com/shorts/{video_id}"}
+
+    if thumbnail_path:
+        try:
+            set_thumbnail(youtube, video_id, thumbnail_path)
+            result["thumbnail"] = "uploaded"
+        except Exception as exc:  # noqa: BLE001 - thumbnail is best-effort, video upload already succeeded
+            result["thumbnail"] = "error"
+            result["thumbnail_error"] = str(exc)
+
+    return result

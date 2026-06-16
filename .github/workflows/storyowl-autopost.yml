@@ -9,6 +9,10 @@ on:
         description: "URL of the finished episode video (e.g. Cloudinary MP4 URL)"
         required: true
         type: string
+      thumbnail_url:
+        description: "URL of the episode thumbnail image (used as the YouTube custom thumbnail)"
+        required: false
+        type: string
       youtube_title:
         description: "YouTube title"
         required: false
@@ -49,6 +53,7 @@ jobs:
       - name: Run StoryOwl autopost orchestrator
         env:
           VIDEO_URL: ${{ github.event.client_payload.video_url || inputs.video_url }}
+          THUMBNAIL_URL: ${{ github.event.client_payload.thumbnail_url || inputs.thumbnail_url }}
           YOUTUBE_TITLE: ${{ github.event.client_payload.youtube_title || inputs.youtube_title }}
           YOUTUBE_DESCRIPTION: ${{ github.event.client_payload.youtube_description || inputs.youtube_description }}
           YOUTUBE_TAGS: ${{ github.event.client_payload.youtube_tags || inputs.youtube_tags }}

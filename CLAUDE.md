@@ -20,8 +20,9 @@ Two-tier pipeline that produces and posts one ~60s bedtime-story episode per day
   5. Upload all 6 assets to Cloudinary as `storyowl_ep<X>_clip1-4`, `_voice`, `_thumb`,
      then run a `transform-asset` merge -> final MP4 URL.
   6. Write `youtube_title`, `youtube_description`, `youtube_tags`, `tiktok_caption`.
-  7. Fire a `repository_dispatch` (`storyowl_video_ready`) with `video_url`,
-     `thumbnail_url`, and the metadata above.
+  7. Use `mcp__github__actions_run_trigger` (method: `run_workflow`, workflow:
+     `storyowl-autopost.yml`) with `video_url`, `thumbnail_url`, and the metadata above.
+     No `GITHUB_PAT` needed — the GitHub MCP connector is already authenticated.
   8. Mark the episode `Done` in `docs/StoryOwl_60_Day_Plan.md`.
 
 - **Tier 2 (posting)** - `.github/workflows/storyowl-autopost.yml` +

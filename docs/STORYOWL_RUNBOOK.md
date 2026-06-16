@@ -82,30 +82,30 @@ Write, for this episode:
 
 ### 8. Trigger auto-posting
 
-POST to GitHub's `repository_dispatch` API to hand off to Tier 2:
+Use the **GitHub MCP `actions_run_trigger` tool** to dispatch the posting workflow
+directly — no `GITHUB_PAT` environment variable needed, since the GitHub connector in
+the session is already authenticated:
 
-```bash
-curl -X POST \
-  -H "Accept: application/vnd.github+json" \
-  -H "Authorization: Bearer $GITHUB_PAT" \
-  -H "X-GitHub-Api-Version: 2022-11-28" \
-  https://api.github.com/repos/<owner>/<repo>/dispatches \
-  -d '{
-    "event_type": "storyowl_video_ready",
-    "client_payload": {
-      "video_url": "<cloudinary mp4 url>",
-      "thumbnail_url": "<cloudinary thumbnail image url>",
-      "youtube_title": "<title>",
-      "youtube_description": "<description>",
-      "youtube_tags": "<tag1, tag2, tag3>",
-      "tiktok_caption": "<caption with hashtags>"
-    }
-  }'
+```
+mcp__github__actions_run_trigger:
+  method: run_workflow
+  owner: jojojhs-creator
+  repo: nourish-app
+  workflow_id: storyowl-autopost.yml
+  ref: main
+  inputs:
+    video_url: <cloudinary mp4 url>
+    thumbnail_url: <cloudinary thumbnail image url>
+    youtube_title: <title>
+    youtube_description: <description>
+    youtube_tags: <tag1, tag2, tag3>
+    tiktok_caption: <caption with hashtags>
 ```
 
-This triggers `.github/workflows/storyowl-autopost.yml`, which downloads the video and
-posts it to YouTube and TikTok automatically (see `docs/STORYOWL_SETUP.md` for the
-one-time credential setup, and `TIKTOK_POST_MODE` for current TikTok posting behavior).
+This triggers `.github/workflows/storyowl-autopost.yml` via `workflow_dispatch`, which
+downloads the video and posts it to YouTube and TikTok automatically (see
+`docs/STORYOWL_SETUP.md` for the one-time credential setup, and `TIKTOK_POST_MODE` for
+current TikTok posting behavior).
 
 ### 9. Update progress
 

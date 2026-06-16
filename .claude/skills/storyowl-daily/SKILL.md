@@ -22,13 +22,11 @@ Actions workflow.
      (including the thumbnail as `storyowl_ep<X>_thumb`)
    - Run the Cloudinary `transform-asset` merge to get the final MP4 URL
    - Write `youtube_title`, `youtube_description`, `youtube_tags`, `tiktok_caption`
-3. **Trigger posting**: POST to `repository_dispatch` (event type
-   `storyowl_video_ready`) with the final video URL, the thumbnail URL, and the step-2
-   metadata, per the `curl` example in `docs/STORYOWL_RUNBOOK.md` step 8 (includes
-   `thumbnail_url`, which becomes the YouTube custom thumbnail). This requires a GitHub
-   PAT with `repo` scope (or fine-grained "Contents: read & write" + "Actions: write" for
-   this repo) - ask the user for `GITHUB_PAT` if it isn't already available in the
-   environment.
+3. **Trigger posting**: Use the `mcp__github__actions_run_trigger` tool (method:
+   `run_workflow`, workflow_id: `storyowl-autopost.yml`, ref: `main`) with the video URL,
+   thumbnail URL, and step-2 metadata as inputs — see `docs/STORYOWL_RUNBOOK.md` step 8
+   for the exact call. The GitHub MCP connector is already authenticated; no `GITHUB_PAT`
+   environment variable is needed.
 4. **Update progress**: mark the episode as done in `docs/StoryOwl_60_Day_Plan.md`.
 5. Report back: the episode title/language, the Cloudinary video URL, and confirm the
    `repository_dispatch` call succeeded (so the user can check the Actions run for

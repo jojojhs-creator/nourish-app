@@ -6,29 +6,39 @@ on:
   workflow_dispatch:
     inputs:
       video_url:
-        description: "URL of the finished episode video (e.g. Cloudinary MP4 URL)"
+        description: "Cloudinary MP4 URL of the finished ~60s episode video"
         required: true
         type: string
       thumbnail_url:
-        description: "URL of the episode thumbnail image (used as the YouTube custom thumbnail)"
+        description: "Cloudinary image URL used as the YouTube custom thumbnail (optional)"
         required: false
         type: string
       youtube_title:
-        description: "YouTube title"
+        description: "YouTube title (≤100 chars, include #Shorts)"
         required: false
         type: string
       youtube_description:
-        description: "YouTube description"
+        description: "YouTube description — a few sentences about the story + moral, include #Shorts"
         required: false
         type: string
       youtube_tags:
-        description: "Comma-separated YouTube tags"
+        description: "Comma-separated YouTube tags e.g. #BedtimeStory, #KidsStories, #Shorts"
         required: false
         type: string
       tiktok_caption:
-        description: "TikTok caption (with hashtags)"
+        description: "TikTok caption with inline hashtags (≤2200 chars). Pasted manually in DRAFT mode; applied automatically in SELF_ONLY / PUBLIC_TO_EVERYONE."
         required: false
         type: string
+      tiktok_post_mode:
+        description: "TikTok posting mode. DRAFT = creator inbox (manual finish); SELF_ONLY = private direct post; PUBLIC_TO_EVERYONE = public (requires Content Posting API approval). Overrides the TIKTOK_POST_MODE repo variable."
+        required: false
+        type: choice
+        default: ""
+        options:
+          - ""
+          - DRAFT
+          - SELF_ONLY
+          - PUBLIC_TO_EVERYONE
 
 permissions:
   contents: read
@@ -58,13 +68,13 @@ jobs:
           YOUTUBE_DESCRIPTION: ${{ github.event.client_payload.youtube_description || inputs.youtube_description }}
           YOUTUBE_TAGS: ${{ github.event.client_payload.youtube_tags || inputs.youtube_tags }}
           TIKTOK_CAPTION: ${{ github.event.client_payload.tiktok_caption || inputs.tiktok_caption }}
+          TIKTOK_POST_MODE: ${{ github.event.client_payload.tiktok_post_mode || inputs.tiktok_post_mode || vars.TIKTOK_POST_MODE }}
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
           TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
           TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
           TIKTOK_REFRESH_TOKEN: ${{ secrets.TIKTOK_REFRESH_TOKEN }}
-          TIKTOK_POST_MODE: ${{ vars.TIKTOK_POST_MODE }}
           INCLUDE_VIDEO_IN_ARTIFACT: ${{ vars.INCLUDE_VIDEO_IN_ARTIFACT }}
         run: python scripts/storyowl/orchestrator.py
 

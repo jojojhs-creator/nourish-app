@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__548c954f-bfa0-42c4-8fd2-6e4eddee18c3__generate_video",
+      "mcp__548c954f-bfa0-42c4-8fd2-6e4eddee18c3__generate_image",
+      "mcp__548c954f-bfa0-42c4-8fd2-6e4eddee18c3__generate_audio",
+      "mcp__548c954f-bfa0-42c4-8fd2-6e4eddee18c3__job_display",
+      "mcp__548c954f-bfa0-42c4-8fd2-6e4eddee18c3__media_import_url",
+      "mcp__548c954f-bfa0-42c4-8fd2-6e4eddee18c3__upscale_video",
+      "mcp__548c954f-bfa0-42c4-8fd2-6e4eddee18c3__upscale_image",
+      "mcp__7ae81114-ba8b-4e4a-ba3d-1a0af1e6b21c__upload-asset",
+      "mcp__7ae81114-ba8b-4e4a-ba3d-1a0af1e6b21c__transform-asset",
+      "mcp__github__actions_run_trigger"
+    ]
+  }
+}

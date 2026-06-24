@@ -53,11 +53,14 @@ Use `generate_video` with these exact params for **every clip**:
 - `params.resolution: "480p"`
 - `params.aspect_ratio: "9:16"` (Shorts/TikTok portrait)
 - `params.duration: 15` ← **required — do not omit; default is 4 s which gives a 16 s video**
+- `params.generate_audio: false` ← always set this; clip audio is stripped by ffmpeg before the voiceover is overlaid, so generating it wastes time and credits
 
 Per-clip rules:
 - **Clips 1 & 4**: embed `<<<e5996a7c-1d8d-4531-9172-5eee2c844404>>>` in the prompt so
   the StoryOwl character stays visually consistent. Do **not** mention "Cleo" in the prompt.
 - **Clips 2-3**: new characters per episode, matching the script's scene descriptions.
+- **Never repeat a clip** — all 4 clips must show distinct scenes. If one clip fails to
+  generate, wait and retry rather than reusing another clip in its place.
 
 ### 3. Generate the voiceover (Higgsfield inworld TTS)
 

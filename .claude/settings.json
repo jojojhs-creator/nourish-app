@@ -1,5 +1,6 @@
 {
   "permissions": {
+    "defaultMode": "bypassPermissions",
     "allow": [
       "mcp__548c954f-bfa0-42c4-8fd2-6e4eddee18c3__generate_video",
       "mcp__548c954f-bfa0-42c4-8fd2-6e4eddee18c3__generate_image",

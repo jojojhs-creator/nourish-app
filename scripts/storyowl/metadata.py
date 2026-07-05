@@ -1,7 +1,7 @@
-"""Fallback/enrichment for StoryOwl episode metadata.
+"""Fallback/enrichment for Coffee, Cats & Malak post metadata.
 
 The generation runbook (Tier 1) normally writes the real YouTube title/description/tags
-and TikTok caption for each episode. These helpers only fill in gaps so the Tier 2
+and TikTok caption for each post. These helpers only fill in gaps so the Tier 2
 pipeline still produces something reasonable if a field is missing (e.g. a manual
 workflow_dispatch run with partial inputs).
 """
@@ -9,17 +9,16 @@ workflow_dispatch run with partial inputs).
 import re
 
 CURATED_HASHTAGS = [
-    "#StoryOwl",
-    "#BedtimeStory",
-    "#BedtimeStories",
-    "#KidsStories",
-    "#StoryTime",
-    "#StoryTimeForKids",
-    "#FairyTale",
+    "#CoffeeCatsAndMalak",
+    "#CatsOfTikTok",
+    "#CatLife",
+    "#ApartmentLife",
+    "#CozyVibes",
+    "#DailyLife",
+    "#CatMom",
     "#Shorts",
-    "#ShortsForKids",
-    "#StoryForKids",
-    "#KidsContent",
+    "#ShortsFeed",
+    "#CatContent",
 ]
 
 STOPWORDS = {
@@ -59,13 +58,13 @@ def extract_keywords(title: str, max_keywords: int = 4) -> list[str]:
 
 def ensure_youtube_metadata(title: str, description: str, tags: list[str]) -> dict:
     """Fill in any missing YouTube title/description/tags."""
-    title = (title or "StoryOwl Bedtime Story").strip()
+    title = (title or "Coffee, Cats & Malak").strip()
     if len(title) > YOUTUBE_TITLE_MAX:
         title = title[: YOUTUBE_TITLE_MAX - 1].rstrip() + "…"
 
     description = (description or "").strip()
     if not description:
-        description = f"{title}\n\nA cozy bedtime story from StoryOwl."
+        description = f"{title}\n\nA cozy slice of daily life with Malak, Olive, Mocha & Sky."
 
     if "#shorts" not in description.lower():
         description = f"{description}\n\n#Shorts"
@@ -101,7 +100,7 @@ def ensure_tiktok_caption(caption: str, title: str) -> str:
     caption = (caption or "").strip()
 
     if not caption:
-        caption = (title or "StoryOwl Bedtime Story").strip()
+        caption = (title or "Coffee, Cats & Malak").strip()
 
     hashtags = [h for h in CURATED_HASHTAGS + extract_keywords(title) if h.lower() not in caption.lower()]
 

@@ -1,33 +1,38 @@
-name: StoryOwl Merge and Post
+name: Coffee, Cats & Malak Merge and Post
 
-# Downloads 4 video clips + a voice track, merges them with ffmpeg into a
-# single ~60s episode, then posts to YouTube and TikTok.
+# Downloads 2-4 video clips (+ an optional voice/narration track), merges them with
+# ffmpeg into a single clip, then posts to YouTube and TikTok.
+#
+# Coffee, Cats & Malak scenarios are usually a single 15s clip (post directly via
+# storyowl-autopost.yml instead - no merge needed). Use this workflow for 30s scenes
+# made of two sequential 15s clips. voice_url/clip3_url/clip4_url are optional and only
+# needed for older-style multi-clip narrated content.
 
 on:
   workflow_dispatch:
     inputs:
       clip1_url:
-        description: "Cloudinary URL for clip 1 (e.g. https://res.cloudinary.com/.../clip1.mp4)"
+        description: "URL for clip 1"
         required: true
         type: string
       clip2_url:
-        description: "Cloudinary URL for clip 2"
+        description: "URL for clip 2"
         required: true
         type: string
       clip3_url:
-        description: "Cloudinary URL for clip 3"
-        required: true
+        description: "URL for clip 3 (optional - omit for a 2-clip 30s video)"
+        required: false
         type: string
       clip4_url:
-        description: "Cloudinary URL for clip 4"
-        required: true
+        description: "URL for clip 4 (optional)"
+        required: false
         type: string
       voice_url:
-        description: "Cloudinary URL for the voiceover (any audio format)"
-        required: true
+        description: "Optional voiceover/narration track. Omit to keep each clip's own baked-in ambient audio (the default for Coffee, Cats & Malak scenes)."
+        required: false
         type: string
       thumbnail_url:
-        description: "URL of the episode thumbnail image"
+        description: "URL of the post thumbnail image"
         required: false
         type: string
       youtube_title:
@@ -70,31 +75,61 @@ jobs:
       - name: Install ffmpeg
         run: sudo apt-get install -y ffmpeg
 
-      - name: Download clips and voice
+      - name: Download clips and optional voice
+        env:
+          CLIP1_URL: ${{ inputs.clip1_url }}
+          CLIP2_URL: ${{ inputs.clip2_url }}
+          CLIP3_URL: ${{ inputs.clip3_url }}
+          CLIP4_URL: ${{ inputs.clip4_url }}
+          VOICE_URL: ${{ inputs.voice_url }}
         run: |
-          curl -sL -o clip1.mp4 "${{ inputs.clip1_url }}"
-          curl -sL -o clip2.mp4 "${{ inputs.clip2_url }}"
-          curl -sL -o clip3.mp4 "${{ inputs.clip3_url }}"
-          curl -sL -o clip4.mp4 "${{ inputs.clip4_url }}"
-          curl -sL -o voice_raw "${{ inputs.voice_url }}"
-          ls -lh clip*.mp4 voice_raw
+          curl -sL -o clip1.mp4 "$CLIP1_URL"
+          curl -sL -o clip2.mp4 "$CLIP2_URL"
+          CLIPS="clip1.mp4 clip2.mp4"
 
-      - name: Merge clips and overlay voice with ffmpeg
+          if [ -n "$CLIP3_URL" ]; then
+            curl -sL -o clip3.mp4 "$CLIP3_URL"
+            CLIPS="$CLIPS clip3.mp4"
+          fi
+          if [ -n "$CLIP4_URL" ]; then
+            curl -sL -o clip4.mp4 "$CLIP4_URL"
+            CLIPS="$CLIPS clip4.mp4"
+          fi
+          if [ -n "$VOICE_URL" ]; then
+            curl -sL -o voice_raw "$VOICE_URL"
+          fi
+
+          echo "CLIPS=$CLIPS" >> "$GITHUB_ENV"
+          ls -lh clip*.mp4
+
+      - name: Merge clips (and overlay voice if provided)
+        env:
+          VOICE_URL: ${{ inputs.voice_url }}
         run: |
-          # Concat list
-          printf "file '%s'\n" clip1.mp4 clip2.mp4 clip3.mp4 clip4.mp4 > concat.txt
+          printf "file '%s'\n" $CLIPS > concat.txt
+          cat concat.txt
 
-          # Concatenate clips (re-encode to ensure compatibility, strip audio)
-          ffmpeg -f concat -safe 0 -i concat.txt \
-            -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" \
-            -c:v libx264 -preset fast -crf 23 \
-            -an concatenated.mp4 -y
+          if [ -n "$VOICE_URL" ]; then
+            # Strip original clip audio, concat, then overlay the voice track as the
+            # sole audio (trimmed to video length).
+            ffmpeg -f concat -safe 0 -i concat.txt \
+              -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" \
+              -c:v libx264 -preset fast -crf 23 \
+              -an concatenated.mp4 -y
 
-          # Overlay voice as sole audio track (trim to video length)
-          ffmpeg -i concatenated.mp4 -i voice_raw \
-            -c:v copy -c:a aac -b:a 128k \
-            -map 0:v:0 -map 1:a:0 \
-            -shortest -y merged.mp4
+            ffmpeg -i concatenated.mp4 -i voice_raw \
+              -c:v copy -c:a aac -b:a 128k \
+              -map 0:v:0 -map 1:a:0 \
+              -shortest -y merged.mp4
+          else
+            # No voice track - keep each clip's own baked-in ambient audio straight
+            # through the concat.
+            ffmpeg -f concat -safe 0 -i concat.txt \
+              -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" \
+              -c:v libx264 -preset fast -crf 23 \
+              -c:a aac -b:a 128k \
+              -y merged.mp4
+          fi
 
           echo "=== Merged video info ==="
           ls -lh merged.mp4
@@ -123,6 +158,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: storyowl-merge-result-${{ github.run_id }}
+          name: coffee-cats-malak-merge-result-${{ github.run_id }}
           path: out/
           retention-days: 14

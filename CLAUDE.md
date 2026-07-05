@@ -1,44 +1,75 @@
 # nourish-app
 
 Repo root is mostly a static site (`index.html`, `storyowl-privacy.html`,
-`storyowl-terms.html`). The active project is **StoryOwl**, an automated kids
-Shorts/TikTok channel — bedtime stories, fables, educational shorts, adventure
-micro-stories, funny kids stories, and cultural folklore (see content categories in
-`docs/StoryOwl_60_Day_Plan.md`).
+`storyowl-terms.html` — legal pages, filenames kept stable since they're already
+registered as the privacy/terms URLs on the TikTok/YouTube app consoles). The active
+project is **Coffee, Cats & Malak**, an automated Shorts/TikTok channel: daily
+slice-of-life clips of Malak and her three cats — Olive, Mocha, and Sky — in their
+apartment (mornings, cooking, balcony city views, cat chaos). See
+`docs/CoffeeCatsMalak_Content_Calendar.md` for the scenario calendar.
 
-## StoryOwl automation overview
+> Formerly "StoryOwl" (bedtime-story episodes with an owl mascot) — same YouTube/TikTok
+> accounts, fully rebranded to this new character-driven format. Historical StoryOwl
+> episodes are not part of this content line going forward.
 
-Two-tier pipeline that produces and posts one ~60s bedtime-story episode per day:
+## Coffee, Cats & Malak automation overview
 
-- **Tier 1 (generation)** - runs inside an agent session via the `/storyowl-daily`
-  skill (`.claude/skills/storyowl-daily/SKILL.md`), following
-  `docs/STORYOWL_RUNBOOK.md`:
-  1. Pick the next episode from `docs/StoryOwl_60_Day_Plan.md` (alternates EN/AR).
-  2. Write a clip-by-clip script (EN voice "Olivia", AR voice "Nour" - AR script must
-     have full tashkeel/diacritics).
-  3. Generate 4 video clips (Higgsfield Seedance 2.0 FAST, 9:16, 480p, `generate_audio: false`;
-     clips 1 & 4 use the saved "StoryOwl" reference element; all 4 clips must be unique scenes).
-  4. Generate voiceover (Higgsfield inworld TTS) + thumbnail (nano_banana_2).
-  5. Upload all 6 assets to Cloudinary as `storyowl_ep<X>_clip1-4`, `_voice`, `_thumb`.
-  6. Write `youtube_title`, `youtube_description`, `youtube_tags`, `tiktok_caption`.
-  7. Use `mcp__github__actions_run_trigger` (method: `run_workflow`, workflow:
-     `storyowl-merge-and-post.yml`, ref: `main`) with `clip1_url`–`clip4_url`,
-     `voice_url`, `thumbnail_url`, and the metadata above. This workflow ffmpeg-merges
-     the clips + overlays the voice on GitHub Actions runners (Cloudinary `fl_splice`
-     does not work on this account). No `GITHUB_PAT` needed.
-  8. Mark the episode `Done` in `docs/StoryOwl_60_Day_Plan.md`.
+Two-tier pipeline that produces and posts one 15-30s daily-life clip per day:
 
-- **Tier 2 (posting)** - `.github/workflows/storyowl-autopost.yml` +
-  `scripts/storyowl/orchestrator.py`. Downloads the video (and thumbnail), then:
-  - **YouTube**: `youtube_uploader.py` posts as a public, Made-for-Kids Short and sets
-    the custom thumbnail via `thumbnails().set()` (requires phone-verified channel;
-    best-effort, won't fail the run).
+- **Tier 1 (generation)** - runs inside an agent session via the
+  `/coffee-cats-malak-daily` skill (`.claude/skills/coffee-cats-malak-daily/SKILL.md`),
+  following `docs/COFFEE_CATS_MALAK_RUNBOOK.md`:
+  1. Pick the next scenario from `docs/CoffeeCatsMalak_Content_Calendar.md`.
+  2. Write the scene beat(s) for a single 15s clip, or two 15s clips for a 30s scene.
+  3. Generate the clip(s) via Higgsfield Seedance 2.0 FAST (9:16, 480p), embedding the
+     Malak/Olive/Mocha/Sky reference elements as needed for the scene. Audio is
+     **not** disabled — omit `generate_audio` entirely so Seedance bakes in matching
+     ambient sound/music (same rule as the hype-clip workflow below). No dialogue, no
+     on-screen captions.
+  4. Generate a thumbnail (Higgsfield nano_banana_2).
+  5. **Single-clip (15s) scenes**: skip Cloudinary entirely - post straight from
+     Higgsfield's own clip URL via `mcp__github__actions_run_trigger` (workflow:
+     `storyowl-autopost.yml`) with `video_url` = the Higgsfield clip URL.
+  6. **Two-clip (30s) scenes**: trigger `storyowl-merge-and-post.yml` with `clip1_url` +
+     `clip2_url` only (`clip3_url`/`clip4_url`/`voice_url` stay empty) - it ffmpeg-concats
+     the two clips back-to-back, keeping each clip's own baked-in audio. No voiceover
+     track is generated or needed for this format.
+  7. Write `youtube_title`, `youtube_description`, `youtube_tags`, `tiktok_caption`
+     (the on-screen video never has burned-in captions, but the TikTok post's caption/
+     hashtag text is still generated as normal platform metadata).
+  8. Mark the scenario `Done` in `docs/CoffeeCatsMalak_Content_Calendar.md`.
+
+- **Tier 2 (posting)** - `.github/workflows/storyowl-autopost.yml` (single finished
+  video) or `.github/workflows/storyowl-merge-and-post.yml` (two clips, ffmpeg
+  concat) + `scripts/storyowl/orchestrator.py`. Downloads the video (and thumbnail),
+  then:
+  - **YouTube**: `youtube_uploader.py` posts as a public Short and sets the custom
+    thumbnail via `thumbnails().set()` (requires phone-verified channel; best-effort,
+    won't fail the run).
   - **TikTok**: `tiktok_uploader.py` posts per the `TIKTOK_POST_MODE` repo variable
     (`DRAFT` / `SELF_ONLY` / `PUBLIC_TO_EVERYONE`).
   - Falls back to dry-run per platform if that platform's secrets aren't configured.
   - Writes `out/result.json` + a `$GITHUB_STEP_SUMMARY` table.
 
-Full setup/credentials/troubleshooting: `docs/STORYOWL_SETUP.md`.
+Full setup/credentials/troubleshooting: `docs/COFFEE_CATS_MALAK_SETUP.md`.
+
+## The cast
+
+- **Malak** - real person (consent given for an animated/stylized likeness, not a
+  photorealistic deepfake), brunette, tall. Character reference element built from her
+  own photo. Visual style: semi-realistic 3D/CGI (Pixar-adjacent), cozy apartment,
+  warm morning light, city-skyline window backdrop - matches the `oopsyvibes`-style
+  reference the channel is modeled on.
+- **Olive** - Bengal/Tabby mix. The mischievous one (knocks things over, steals food,
+  3am zoomies).
+- **Mocha** - Golden Chinchilla Scottish Fold. The cozy/fluffy one (grooming rituals,
+  dramatic naps).
+- **Sky** - White Persian with heterochromia (one blue eye, one green/gold eye). The
+  diva (sunbeam naps, "photoshoot" poses, picky about treats).
+
+All four have their own Higgsfield reference element so they stay visually consistent
+across every clip - same mechanism the old StoryOwl mascot element used, just four
+characters instead of one.
 
 ## Known platform limitations
 
@@ -55,44 +86,52 @@ Full setup/credentials/troubleshooting: `docs/STORYOWL_SETUP.md`.
 
 ## Daily automation
 
-For a fully unattended daily run at 9am: set up a Claude Code scheduled
-trigger/routine (claude.ai/code -> repo -> scheduled triggers) that runs
-`/storyowl-daily` once per day. Each run generates the episode and fires
-`repository_dispatch` itself, which triggers Tier 2 posting automatically. For TikTok
-to post **publicly** (not just to inbox), `TIKTOK_POST_MODE` must be
+For a fully unattended daily run: set up a Claude Code scheduled trigger/routine
+(claude.ai/code -> repo -> scheduled triggers) that runs `/coffee-cats-malak-daily`
+once per day. Each run generates the clip(s) and posts via the workflows above. For
+TikTok to post **publicly** (not just to inbox), `TIKTOK_POST_MODE` must be
 `PUBLIC_TO_EVERYONE` (needs TikTok's Content Posting API audit approval).
+
+## Rebrand notes (account-level, manual, not automatable)
+
+Renaming the actual YouTube/TikTok account, uploading the new profile photo, and
+setting the new bio are **not** handled by any script or MCP tool here - neither
+platform's API exposes profile/identity editing to this pipeline. These must be done
+manually in YouTube Studio and the TikTok app:
+
+- **Name**: Coffee, Cats & Malak
+- **Bio**: "One girl, three cats, zero peace and quiet ☕😹"
+- **Profile photo**: generate via Higgsfield (portrait crop of Malak's reference
+  element) and upload manually once credits allow generation.
 
 ## Hype clips (standalone engagement content)
 
-Separate from episodes — short viral-style clips to grow followers between story posts.
+Separate from daily scenario posts - short viral-style clips to grow followers.
 
 **Rules (enforced — do not break):**
 - **One clip per hype post** — never batch 3 and post them separately in one session.
 - **15 seconds**, `9:16`, Seedance 2.0 FAST.
 - **`generate_audio: false` is NOT used here** — these clips need Seedance's
-  auto-generated beat. Omit `generate_audio` entirely so Seedance bakes in matching music.
+  auto-generated beat. Omit `generate_audio` entirely so Seedance bakes in matching
+  music.
 - **Describe the rhythm in the prompt** — e.g. "dancing perfectly in sync to a hard EDM
   drop beat", "bouncing to a viral tropical house rhythm". This steers Seedance's music.
-- **Content**: dancing animals (cat, dog, bunny, etc.) or a clearly cartoon/animated
-  child character. Never use "baby" or "infant" keywords — they trigger NSFW filters.
-  Use "cartoon child character", "kawaii character", "chibi character" instead.
 - **Post via `storyowl-autopost.yml`** using the Higgsfield CloudFront URL directly
-  (no Cloudinary upload needed for hype clips).
-
-## Cloudinary merge workaround
-
-`fl_splice` transformations do not work on this Cloudinary account. Always use
-`storyowl-merge-and-post.yml` (ffmpeg on GitHub Actions) to concatenate clips.
-Pass individual clip URLs as `clip1_url`–`clip4_url` + `voice_url`. All 4 clip
-URLs must be **unique** — never reuse the same URL in two positions.
+  (no Cloudinary upload needed for hype clips) - the same no-Cloudinary path the daily
+  single-clip scenario posts now use too.
 
 ## Progress
 
-Episodes 1–4b generated and posted (see `docs/StoryOwl_60_Day_Plan.md` for status):
-1. "Luna the Sleepy Bunny" (EN)
-2. "النجمة الصغيرة" / The Little Star (AR)
-3. "Theo's Quiet Night" (EN)
-4. "القمر وسامي" / The Moon and Sami (AR)
-4b. "الأسد والفأر" / The Lion and the Mouse (AR Fable)
+Rebrand in progress (see `docs/CoffeeCatsMalak_Content_Calendar.md` for scenario
+status). No Coffee, Cats & Malak clips generated yet - blocked on:
+1. Higgsfield credit top-up (balance was near zero as of the last generation attempt).
+2. Building the four character reference elements (Malak, Olive, Mocha, Sky) from
+   their reference photos.
+3. Manually renaming the account / uploading the new profile photo + bio on
+   YouTube and TikTok.
+
+Prior StoryOwl bedtime-story episodes (1-4b) were posted under the old format; that
+calendar (`docs/StoryOwl_60_Day_Plan.md`) is retired and superseded by
+`docs/CoffeeCatsMalak_Content_Calendar.md`.
 
 TikTok posts in `DRAFT` mode — captions must be pasted manually in the TikTok app.

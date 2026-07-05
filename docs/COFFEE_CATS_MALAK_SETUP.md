@@ -1,8 +1,9 @@
-# StoryOwl Auto-Post: Setup Guide
+# Coffee, Cats & Malak Auto-Post: Setup Guide
 
-This sets up the Tier 2 pipeline (`.github/workflows/storyowl-autopost.yml`) that
-auto-posts finished episodes to YouTube and TikTok, replacing the n8n "StoryOwl
-Auto-Poster" workflow.
+This sets up the Tier 2 pipeline (`.github/workflows/storyowl-autopost.yml` /
+`storyowl-merge-and-post.yml`) that auto-posts finished clips to YouTube and TikTok.
+Same accounts and credentials as the channel's earlier "StoryOwl" era — only the
+content format and branding changed, not the OAuth setup below.
 
 ## 1. YouTube (Data API v3)
 
@@ -62,7 +63,7 @@ This controls how `scripts/storyowl/tiktok_uploader.py` posts:
 | `PUBLIC_TO_EVERYONE` | Direct Post, fully public | Set automatically | Approved Content Posting API access for Direct Post |
 
 As TikTok's review progresses, just change this variable - no code changes needed. For
-**fully public daily posting** (see "Daily Automation" below), `TIKTOK_POST_MODE` must
+**fully public daily posting** (see "Daily automation" below), `TIKTOK_POST_MODE` must
 be `PUBLIC_TO_EVERYONE`, which requires TikTok to approve the app's Content Posting API
 audit for Direct Post.
 
@@ -73,10 +74,10 @@ audit for Direct Post.
 
 ## 5. YouTube thumbnails
 
-`/storyowl-daily` generates a thumbnail (Higgsfield `nano_banana_2`), uploads it to
-Cloudinary as `storyowl_ep<X>_thumb`, and passes its URL as `thumbnail_url` in the
-`repository_dispatch` payload. The orchestrator downloads it and calls
-`youtube.thumbnails().set(...)` after the video upload succeeds.
+`/coffee-cats-malak-daily` generates a thumbnail (Higgsfield `nano_banana_2`) and
+passes its URL directly as `thumbnail_url` (Higgsfield URL for single-clip posts, or
+alongside the merge workflow's clip inputs for two-clip posts). The orchestrator
+downloads it and calls `youtube.thumbnails().set(...)` after the video upload succeeds.
 
 **Requirement**: setting a custom video thumbnail requires the YouTube channel to be
 **verified** (Settings > Channel > Feature eligibility > phone verification). If the
@@ -84,95 +85,61 @@ channel isn't verified, `thumbnails().set` returns an error - the video still up
 successfully, but the job summary will show "thumbnail not set" with the error detail.
 Verify the channel once and re-run; no code changes needed.
 
-## 6. Updating StoryOwl's trigger (replacing the n8n webhook)
+## 6. Account rebrand (manual — not automatable)
 
-StoryOwl currently POSTs `{video_url, title, description}` to an n8n webhook. Point it
-at GitHub's `repository_dispatch` API instead:
+Neither the YouTube Data API nor TikTok's Content Posting API expose profile/identity
+editing to this pipeline, so the following are **manual, one-time steps** in each
+platform's own app/dashboard — not something any script here can do:
 
-**Before (n8n):**
-```python
-requests.post("https://your-n8n.app/webhook/storyowl", json={
-    "video_url": video_url, "title": title, "description": description,
-})
-```
+- Rename the channel/account to **Coffee, Cats & Malak**.
+- Update the bio to: *"One girl, three cats, zero peace and quiet ☕😹"*
+- Upload the new profile photo (generate a portrait crop of Malak's character element
+  via Higgsfield once credits allow, then upload it yourself).
 
-**After (GitHub `repository_dispatch`):**
-```python
-import requests
-
-requests.post(
-    "https://api.github.com/repos/<owner>/<repo>/dispatches",
-    headers={
-        "Accept": "application/vnd.github+json",
-        "Authorization": f"Bearer {GITHUB_PAT}",
-        "X-GitHub-Api-Version": "2022-11-28",
-    },
-    json={
-        "event_type": "storyowl_video_ready",
-        "client_payload": {
-            "video_url": video_url,
-            "thumbnail_url": thumbnail_url,
-            "youtube_title": youtube_title,
-            "youtube_description": youtube_description,
-            "youtube_tags": "tag1, tag2, tag3",
-            "tiktok_caption": tiktok_caption,
-        },
-    },
-)
-```
-
-`GITHUB_PAT` needs `repo` scope (classic PAT) or fine-grained access to this repo with
-**Contents: read-only** + **Actions: read and write**.
-
-If you're using the `/storyowl-daily` skill (`docs/STORYOWL_RUNBOOK.md`), this call is
-made for you as the final step of generating an episode.
-
-## 7. Daily automation at 9am
-
-The Tier 2 posting pipeline (this workflow) only runs once it's handed a finished
-video - it can't generate episodes by itself, because Tier 1 generation (script,
-Higgsfield clips/voiceover/thumbnail, Cloudinary merge) happens via MCP tools inside an
-agent session and can't run on a bare GitHub Actions cron.
+## 7. Daily automation
 
 To run the whole pipeline automatically every day:
 
 1. In the Claude Code web UI (claude.ai/code), open this repo and go to its
    **scheduled triggers / routines** settings.
-2. Create a daily schedule for **9:00 AM** (your local timezone) that runs the
-   `/storyowl-daily` prompt against the `claude/youtube-tiktok-automation-kpyxe0` (or
-   `main`, once merged) branch.
-3. Each run will: pick the next entry from `docs/StoryOwl_60_Day_Plan.md`, generate the
-   episode, write the YouTube/TikTok metadata, and fire `repository_dispatch` - which
-   triggers this workflow to post automatically. No manual step needed once this is set
-   up.
+2. Create a daily schedule that runs the `/coffee-cats-malak-daily` prompt against
+   the working branch (or `main`, once merged).
+3. Each run will: pick the next entry from `docs/CoffeeCatsMalak_Content_Calendar.md`,
+   generate the clip(s), write the YouTube/TikTok metadata, and trigger the posting
+   workflow directly via the GitHub MCP connector - no manual step needed once this is
+   set up.
 
 **For both platforms to post fully publicly** with no manual steps:
-- **YouTube**: already posts as a public, Made-for-Kids Short by default - nothing
-  further to configure.
+- **YouTube**: already posts as a public Short by default - nothing further to
+  configure.
 - **TikTok**: set `TIKTOK_POST_MODE` = `PUBLIC_TO_EVERYONE` (see section 3) once
   TikTok's Content Posting API audit is approved. Until then, `DRAFT` mode still runs
-  daily, but each episode lands in the TikTok inbox for you to tap "Post" (with the
+  daily, but each clip lands in the TikTok inbox for you to tap "Post" (with the
   caption pasted from the job summary).
 
 ## 8. Testing
 
 Before wiring up the real trigger, test the pipeline manually:
 
-1. Go to the repo's **Actions** tab > **StoryOwl Auto-Post** > **Run workflow**.
-2. Fill in `video_url` with any public `.mp4` URL, plus sample title/description/caption.
+1. Go to the repo's **Actions** tab > **Coffee, Cats & Malak Auto-Post** (or
+   **Merge and Post**) > **Run workflow**.
+2. Fill in `video_url` (or `clip1_url`/`clip2_url` for the merge workflow) with any
+   public `.mp4` URL, plus sample title/description/caption.
 3. Run it. With no secrets configured yet, it runs in **dry-run mode**: downloads the
    video and shows the generated YouTube/TikTok metadata in the run's summary - no
    actual posting happens, and the run won't fail.
-4. Once secrets are configured, re-run with a real episode's Cloudinary URL and confirm
-   it appears on YouTube (public, Made-for-Kids Short) and TikTok (per
-   `TIKTOK_POST_MODE`).
+4. Once secrets are configured, re-run with a real clip's URL and confirm it appears on
+   YouTube (public Short) and TikTok (per `TIKTOK_POST_MODE`).
 
 ## Troubleshooting
 
 - **YouTube quota**: `videos.insert` costs 1600 of the default 10,000 daily quota units
-  (~6 uploads/day). Request a quota increase if StoryOwl needs to post more often.
+  (~6 uploads/day). Request a quota increase if the channel needs to post more often.
 - **TikTok token errors**: access tokens last ~24h; `tiktok_uploader.py` refreshes one
   automatically from `TIKTOK_REFRESH_TOKEN` on every run. If refresh fails, re-run
   `tiktok_oauth.py` to mint a new refresh token.
 - **YouTube refresh token stopped working after a week**: the OAuth consent screen is
   probably still in "Testing" - switch it to "Production" and re-run `youtube_oauth.py`.
+- **Higgsfield credits**: character-element creation and every clip/thumbnail
+  generation draws from the Higgsfield credit balance - check it before a run if
+  generation fails unexpectedly.

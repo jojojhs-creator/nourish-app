@@ -1,4 +1,4 @@
-name: StoryOwl Auto-Post
+name: Coffee, Cats & Malak Auto-Post
 
 on:
   repository_dispatch:
@@ -6,11 +6,11 @@ on:
   workflow_dispatch:
     inputs:
       video_url:
-        description: "URL of the finished episode video (e.g. Cloudinary MP4 URL)"
+        description: "URL of the finished video (Higgsfield clip URL for single-clip posts, or any public MP4 URL)"
         required: true
         type: string
       thumbnail_url:
-        description: "URL of the episode thumbnail image (used as the YouTube custom thumbnail)"
+        description: "URL of the post thumbnail image (used as the YouTube custom thumbnail)"
         required: false
         type: string
       youtube_title:
@@ -50,7 +50,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r scripts/storyowl/requirements.txt
 
-      - name: Run StoryOwl autopost orchestrator
+      - name: Run autopost orchestrator
         env:
           VIDEO_URL: ${{ github.event.client_payload.video_url || inputs.video_url }}
           THUMBNAIL_URL: ${{ github.event.client_payload.thumbnail_url || inputs.thumbnail_url }}

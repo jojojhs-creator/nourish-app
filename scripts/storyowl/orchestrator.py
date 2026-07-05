@@ -1,4 +1,4 @@
-"""StoryOwl Tier 2 entrypoint: download an episode video and post it to YouTube + TikTok.
+"""Coffee, Cats & Malak Tier 2 entrypoint: download a video and post it to YouTube + TikTok.
 
 Reads inputs from environment variables (set by the GitHub Actions workflow from either
 a `repository_dispatch` payload or `workflow_dispatch` inputs), with optional CLI
@@ -60,7 +60,7 @@ def write_outputs(inputs: dict, meta: dict, results: dict) -> None:
     if not summary_path:
         return
 
-    lines = ["## StoryOwl Auto-Post Results", "", "| Platform | Status | Details |", "|---|---|---|"]
+    lines = ["## Auto-Post Results", "", "| Platform | Status | Details |", "|---|---|---|"]
 
     yt = results["youtube"]
     if yt["status"] == "uploaded":

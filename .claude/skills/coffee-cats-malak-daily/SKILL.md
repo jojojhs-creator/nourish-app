@@ -21,6 +21,10 @@ Produces one episode end-to-end and hands off to the auto-posting GitHub Actions
      calm beat-1 moment with mischief visibly imminent — NEVER the payoff moment;
      element IDs + mandatory style block). This one image is also the thumbnail —
      never generate a second image.
+   - When Malak appears, ALWAYS pass the canonical Malak portrait
+     (`medias: [{value: "7c8a4bde-3c17-4257-80f3-b8864f5a1ea9", role: "image"}]`)
+     and include the runbook's Malak-match sentence — she is the main character
+     and must look identical in every episode.
    - THEN generate the 15s clip via Seedance 2.0 FAST (9:16, 480p, `genre: "comedy"`)
      passing the keyframe job ID as `medias: [{value: <keyframe_job_id>, role:
      "start_image"}]`, with a second-by-second script prompt (Seconds 0-3 / 3-7 /

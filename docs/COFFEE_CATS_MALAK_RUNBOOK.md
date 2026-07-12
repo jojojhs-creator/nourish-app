@@ -63,9 +63,20 @@ Use `generate_image` with:
 model: "nano_banana_pro"
 params:
   aspect_ratio: "9:16"
+  medias:
+    - value: "7c8a4bde-3c17-4257-80f3-b8864f5a1ea9"   # canonical Malak portrait
+      role: "image"
   prompt: <the scenario's SETUP moment with imminent mischief + element IDs +
-           the mandatory style block below>
+           the Malak-match sentence + the mandatory style block below>
 ```
+
+**Malak consistency rule**: job `7c8a4bde-3c17-4257-80f3-b8864f5a1ea9` (the approved
+group portrait, also the channel profile picture) is the canonical Malak design.
+Pass it as a reference image on EVERY keyframe where Malak appears, and include this
+sentence in the prompt:
+> `Malak must look exactly like the woman in the reference image: same face, same
+> long dark wavy hair, same brown eyes, same soft rounded cartoon features and
+> proportions.`
 
 Save the job ID as `keyframe_job_id` and the image URL as `thumbnail_url`.
 

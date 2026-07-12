@@ -22,7 +22,7 @@ def _stream_download(url: str, dest_path: str, expected_content_types: tuple[str
     return dest_path
 
 
-def download_video(url: str, dest_dir: str = "/tmp", filename: str = "storyowl_video.mp4") -> str:
+def download_video(url: str, dest_dir: str = "/tmp", filename: str = "coffee_cats_malak.mp4") -> str:
     """Stream-download `url` to `dest_dir/filename` and return the local path."""
     if not url:
         raise ValueError("video_url is required")
@@ -41,7 +41,7 @@ def download_thumbnail(url: str, dest_dir: str = "/tmp", filename: str | None = 
         ext = os.path.splitext(url.split("?")[0])[1].lower()
         if ext not in (".jpg", ".jpeg", ".png", ".webp"):
             ext = ".jpg"
-        filename = f"storyowl_thumbnail{ext}"
+        filename = f"ccm_thumbnail{ext}"
 
     os.makedirs(dest_dir, exist_ok=True)
     return _stream_download(url, os.path.join(dest_dir, filename), ("image", "octet-stream"))

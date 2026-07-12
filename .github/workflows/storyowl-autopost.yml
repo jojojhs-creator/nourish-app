@@ -1,4 +1,4 @@
-name: StoryOwl Auto-Post
+name: Coffee Cats Malak Auto-Post
 
 on:
   repository_dispatch:
@@ -50,7 +50,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r scripts/storyowl/requirements.txt
 
-      - name: Run StoryOwl autopost orchestrator
+      - name: Run autopost orchestrator
         env:
           VIDEO_URL: ${{ github.event.client_payload.video_url || inputs.video_url }}
           THUMBNAIL_URL: ${{ github.event.client_payload.thumbnail_url || inputs.thumbnail_url }}

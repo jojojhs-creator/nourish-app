@@ -60,7 +60,7 @@ def write_outputs(inputs: dict, meta: dict, results: dict) -> None:
     if not summary_path:
         return
 
-    lines = ["## StoryOwl Auto-Post Results", "", "| Platform | Status | Details |", "|---|---|---|"]
+    lines = ["## Coffee, Cats & Malak — Auto-Post Results", "", "| Platform | Status | Details |", "|---|---|---|"]
 
     yt = results["youtube"]
     if yt["status"] == "uploaded":

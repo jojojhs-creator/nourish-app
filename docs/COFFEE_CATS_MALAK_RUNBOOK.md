@@ -75,7 +75,15 @@ params:
   freezes, whips around. Avoid static verbs like "sits" or "looks" for chaotic beats.
 - Describe exaggerated reactions physically: "hair sticking up in all directions",
   "eyes comically wide", "deadpan slow blink", "dramatic collapse onto the couch".
-- Always specify: "Pixar/CGI animated style, warm cozy apartment, soft lighting"
+- **MANDATORY style block** — every clip prompt MUST end with this exact sentence
+  (this is the Episode 1 look; it is the channel's locked visual identity):
+  > `Fully stylized Pixar/Disney 3D cartoon animation with cartoon proportions, big
+  > expressive animated eyes, soft rounded features, NOT photorealistic, no live-action
+  > look, no realistic human skin — animated movie style. Warm cozy apartment, soft
+  > golden lighting.`
+  Never shorten it to just "Pixar/CGI animated style" — that phrasing alone drifts
+  toward photorealistic humans (this happened in Episode 2). The full block above is
+  what keeps Malak looking like a cartoon character.
 - Never include dialogue, subtitles, or on-screen text
 - Keep it visual — expressions, body language, cat behavior carry the comedy
 
@@ -84,15 +92,20 @@ params:
 > dawn. Olive the tabby cat pounces onto the bed, paws at Malak's hand, gets no
 > response, then jumps on her head — once, twice, bouncing insistently. Malak bolts
 > upright in shock, dark wavy hair a wild mess covering her face, eyes comically wide,
-> while Olive sits beside her calmly grooming a paw as if nothing happened.
-> Pixar/CGI animated style, warm golden morning light, cozy bedroom, exaggerated
-> physical comedy, dynamic motion.`
+> while Olive sits beside her calmly grooming a paw as if nothing happened. Exaggerated
+> physical comedy, dynamic motion. Fully stylized Pixar/Disney 3D cartoon animation
+> with cartoon proportions, big expressive animated eyes, soft rounded features, NOT
+> photorealistic, no live-action look, no realistic human skin — animated movie style.
+> Warm cozy apartment, soft golden lighting.`
 
 **Example prompt (Cozy):**
 > `<<<MALAK_ID>>> <<<SKY_ID>>> Evening, warm lamplight. Malak reads on the couch under
 > a blanket. Sky the white kitten climbs slowly into her lap, circles twice, and curls
 > up purring. Malak smiles softly — then Sky stretches and gently boops Malak's chin
-> with one paw. Pixar/CGI animated style, cozy warm apartment, soft lighting.`
+> with one paw. Fully stylized Pixar/Disney 3D cartoon animation with cartoon
+> proportions, big expressive animated eyes, soft rounded features, NOT photorealistic,
+> no live-action look, no realistic human skin — animated movie style. Warm cozy
+> apartment, soft golden lighting.`
 
 ### After generation
 
@@ -117,7 +130,10 @@ params:
 - Show the funniest or most visually striking moment from the scenario
 - Include `<<<MALAK_ID>>>` if Malak is visible
 - Include relevant cat element IDs
-- Add: "Pixar/CGI animation style, bright vibrant colors, expressive faces"
+- End with the same mandatory style block as the clip prompt: "Fully stylized
+  Pixar/Disney 3D cartoon animation with cartoon proportions, big expressive animated
+  eyes, soft rounded features, NOT photorealistic, no live-action look — animated
+  movie style. Bright vibrant colors, expressive faces."
 - No text, no overlays
 
 Save the image URL as `thumbnail_url`.

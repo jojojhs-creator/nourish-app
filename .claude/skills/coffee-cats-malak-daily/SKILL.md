@@ -37,6 +37,10 @@ Produces one episode end-to-end and hands off to the auto-posting GitHub Actions
 
 ## Notes
 
+- Follow the calendar row's **Energy** column: `Chaotic` episodes use the runbook's
+  3-beat structure (calm setup → escalating repeated actions → big exaggerated Pixar
+  reaction payoff). `Cozy` episodes are slow and warm with one small comedic surprise.
+  Never write a single-action prompt — chaotic scenes need 2–4 escalating actions.
 - Never use `generate_audio: false` — omit it entirely so Seedance bakes in ambient audio.
 - Never add on-screen text or captions to prompts.
 - Always embed all relevant character element IDs in the prompt using `<<<element_id>>>` syntax.

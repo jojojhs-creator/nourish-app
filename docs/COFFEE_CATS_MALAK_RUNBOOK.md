@@ -60,17 +60,39 @@ params:
 
 - Open with the character element IDs for all characters in the scene:
   `<<<MALAK_ID>>> <<<MOCHA_ID>>>` etc.
-- Describe the scene setup from the calendar row (Setup column)
-- Describe the payoff / punchline (Payoff column)
+- Check the calendar row's **Energy** column — it sets the pacing:
+  - **Chaotic** episodes: pack the 15 seconds with physical comedy in 3 beats —
+    1. **Setup (0–3s)**: calm moment from the Setup column
+    2. **Escalation (3–11s)**: the cat does the annoying thing REPEATEDLY and
+       increasingly — multiple jumps, repeated pawing, knocking things one after
+       another, zoomies. Never a single action; always 2–4 escalating actions.
+    3. **Payoff (11–15s)**: Malak's BIG exaggerated reaction — bolts upright,
+       messy hair over her face, wide cartoon eyes, dramatic slump, silent scream
+       at the camera. Pixar-level exaggerated expression is the punchline.
+  - **Cozy** episodes: slow warm pacing, soft moments, gentle purring cuddles —
+    but still end with one small surprise or subtle comedic beat.
+- Write ACTION VERBS: pounces, springs, bolts, knocks, scrambles, launches,
+  freezes, whips around. Avoid static verbs like "sits" or "looks" for chaotic beats.
+- Describe exaggerated reactions physically: "hair sticking up in all directions",
+  "eyes comically wide", "deadpan slow blink", "dramatic collapse onto the couch".
 - Always specify: "Pixar/CGI animated style, warm cozy apartment, soft lighting"
 - Never include dialogue, subtitles, or on-screen text
-- Keep it visual — focus on expressions, body language, cat behavior
+- Keep it visual — expressions, body language, cat behavior carry the comedy
 
-**Example prompt:**
-> `<<<MALAK_ID>>> <<<OLIVE_ID>>> Malak is working at her laptop on the couch in a cozy
-> apartment. Olive the tabby cat silently walks over, sniffs the keyboard, then sits
-> directly on top of it and stares at Malak. Malak looks at the camera in exasperation.
-> Pixar/CGI animated style, warm golden lighting, cozy living room.`
+**Example prompt (Chaotic):**
+> `<<<MALAK_ID>>> <<<OLIVE_ID>>> Malak is sleeping peacefully in her cozy bedroom at
+> dawn. Olive the tabby cat pounces onto the bed, paws at Malak's hand, gets no
+> response, then jumps on her head — once, twice, bouncing insistently. Malak bolts
+> upright in shock, dark wavy hair a wild mess covering her face, eyes comically wide,
+> while Olive sits beside her calmly grooming a paw as if nothing happened.
+> Pixar/CGI animated style, warm golden morning light, cozy bedroom, exaggerated
+> physical comedy, dynamic motion.`
+
+**Example prompt (Cozy):**
+> `<<<MALAK_ID>>> <<<SKY_ID>>> Evening, warm lamplight. Malak reads on the couch under
+> a blanket. Sky the white kitten climbs slowly into her lap, circles twice, and curls
+> up purring. Malak smiles softly — then Sky stretches and gently boops Malak's chin
+> with one paw. Pixar/CGI animated style, cozy warm apartment, soft lighting.`
 
 ### After generation
 

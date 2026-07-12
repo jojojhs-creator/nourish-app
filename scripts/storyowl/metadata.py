@@ -9,17 +9,16 @@ workflow_dispatch run with partial inputs).
 import re
 
 CURATED_HASHTAGS = [
-    "#StoryOwl",
-    "#BedtimeStory",
-    "#BedtimeStories",
-    "#KidsStories",
-    "#StoryTime",
-    "#StoryTimeForKids",
-    "#FairyTale",
+    "#CoffeeCatsMalak",
+    "#Cats",
+    "#FunnyCats",
+    "#CatsOfTikTok",
+    "#CatLife",
+    "#CatAnimation",
+    "#CuteCats",
+    "#Cozy",
     "#Shorts",
-    "#ShortsForKids",
-    "#StoryForKids",
-    "#KidsContent",
+    "#fyp",
 ]
 
 STOPWORDS = {
@@ -59,13 +58,13 @@ def extract_keywords(title: str, max_keywords: int = 4) -> list[str]:
 
 def ensure_youtube_metadata(title: str, description: str, tags: list[str]) -> dict:
     """Fill in any missing YouTube title/description/tags."""
-    title = (title or "StoryOwl Bedtime Story").strip()
+    title = (title or "Coffee, Cats & Malak").strip()
     if len(title) > YOUTUBE_TITLE_MAX:
         title = title[: YOUTUBE_TITLE_MAX - 1].rstrip() + "…"
 
     description = (description or "").strip()
     if not description:
-        description = f"{title}\n\nA cozy bedtime story from StoryOwl."
+        description = f"{title}\n\nOne girl, three cats, zero peace and quiet ☕😹 New episode every day."
 
     if "#shorts" not in description.lower():
         description = f"{description}\n\n#Shorts"
@@ -101,7 +100,7 @@ def ensure_tiktok_caption(caption: str, title: str) -> str:
     caption = (caption or "").strip()
 
     if not caption:
-        caption = (title or "StoryOwl Bedtime Story").strip()
+        caption = (title or "Coffee, Cats & Malak").strip()
 
     hashtags = [h for h in CURATED_HASHTAGS + extract_keywords(title) if h.lower() not in caption.lower()]
 

@@ -9,7 +9,7 @@ Characters: Malak (human), Mocha (golden Scottish Fold), Sky (white fluffy kitte
 
 | Day | Title | Characters | Setup | Payoff | Status |
 |---|---|---|---|---|---|
-| 1 | The Alarm Cat | Malak, Olive | Malak is asleep. Olive sits on her face at 6am. | Malak opens one eye. Olive stares back, unblinking. | Not started |
+| 1 | The Alarm Cat | Malak, Olive | Malak is asleep. Olive sits on her face at 6am. | Malak opens one eye. Olive stares back, unblinking. | Done — [clip](https://d8j0ntlcm91z4.cloudfront.net/user_3EwohTt8l0SFroGsM75LLlCkrBY/hf_20260712_104354_c11bba39-8ae0-4a91-b039-f0325f1b8966.mp4) |
 | 2 | The Laptop Situation | Malak, Sky | Malak opens her laptop to work. Sky immediately sits directly on the keyboard. | Malak tries to type around the kitten. Sky settles in deeper. | Not started |
 | 3 | Coffee Heist | Malak, Mocha | Malak sets her coffee mug on the table and walks away for 2 seconds. | She returns to find Mocha sniffing the mug and looking guilty. | Not started |
 | 4 | The Zoom Call | Malak, Olive, Sky | Malak is on a video call, looking professional. | Olive walks across the screen. Sky jumps up from below and stares at the camera. | Not started |

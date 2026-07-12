@@ -13,13 +13,10 @@ Only include characters who appear in the scenario.
 
 | Character | Element ID | Notes |
 |---|---|---|
-| Malak | TBD | Brunette, dark wavy hair, brown eyes, olive skin |
-| Mocha | TBD | Golden Scottish Fold, folded ears, yellow-green eyes |
-| Sky | TBD | White fluffy kitten, blue eyes |
-| Olive | TBD | Classic tabby, striped, sleepy expression |
-
-> **After setup**: replace all TBD values above with the actual Higgsfield element IDs
-> created during the one-time character setup session.
+| Malak | `1a65de6a-8d89-45e6-853f-383fb1e0ed6e` | Brunette, dark wavy hair, brown eyes, olive skin |
+| Mocha | `f35a2c1b-9058-46d9-ac48-a44628d95785` | Golden Scottish Fold, folded ears, yellow-green eyes |
+| Sky | `5df3dade-6a3a-4622-898c-a26e164f56f6` | White fluffy kitten, blue eyes |
+| Olive | `74a58910-181f-4819-a00f-73f076bf5d69` | Classic tabby, striped, sleepy expression |
 
 ---
 

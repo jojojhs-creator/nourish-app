@@ -47,10 +47,10 @@ Full setup/credentials/troubleshooting: `docs/COFFEE_CATS_MALAK_SETUP.md`.
 
 | Character | Element ID |
 |---|---|
-| Malak | TBD — update after one-time setup session |
-| Mocha | TBD — update after one-time setup session |
-| Sky | TBD — update after one-time setup session |
-| Olive | TBD — update after one-time setup session |
+| Malak | `1a65de6a-8d89-45e6-853f-383fb1e0ed6e` |
+| Mocha | `f35a2c1b-9058-46d9-ac48-a44628d95785` |
+| Sky | `5df3dade-6a3a-4622-898c-a26e164f56f6` |
+| Olive | `74a58910-181f-4819-a00f-73f076bf5d69` |
 
 Embed in prompts as `<<<element_id>>>`. See `docs/COFFEE_CATS_MALAK_RUNBOOK.md`.
 

@@ -62,7 +62,8 @@ Embed in prompts as `<<<element_id>>>`. See `docs/COFFEE_CATS_MALAK_RUNBOOK.md`.
 3. Only proceed if balance clearly covers the run
 
 Expected cost per episode: ~22.5 credits (clip) + ~2 credits (thumbnail) = ~24.5 credits.
-Current balance (as of setup): 3,000.35 credits (~4 months of runway at 30 episodes/month).
+Cadence: **2 episodes/day** (morning + evening) = ~49 credits/day ≈ ~1,470 credits/month.
+Balance as of 2026-07-12: ~2,966 credits (≈ 2 months of runway at 60 episodes/month).
 
 ## Known platform limitations
 
@@ -78,10 +79,12 @@ Current balance (as of setup): 3,000.35 credits (~4 months of runway at 30 episo
 
 ## Daily automation
 
-For fully unattended daily runs: set up a Claude Code scheduled trigger
-(claude.ai/code → repo → scheduled triggers) running `/coffee-cats-malak-daily` once
-per day. Each run generates the episode and fires `workflow_dispatch` itself, which
-triggers Tier 2 posting automatically.
+For fully unattended runs: set up **two** Claude Code scheduled triggers
+(claude.ai/code → repo → scheduled triggers), each running `/coffee-cats-malak-daily`:
+one in the morning (e.g. 9:00 AM) and one in the evening (e.g. 6:00 PM). Each run
+picks the next episode not marked Done from the calendar (episodes are ordered
+Day 1 AM, Day 1 PM, Day 2 AM, …), generates it, and fires `workflow_dispatch`
+itself, which triggers Tier 2 posting automatically.
 
 ## Infrastructure notes
 

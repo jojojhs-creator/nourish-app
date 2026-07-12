@@ -95,17 +95,18 @@ These IDs are embedded in every daily clip prompt to keep characters visually co
 
 ---
 
-## 6. Daily Automation
+## 6. Daily Automation (2 episodes/day)
 
-In claude.ai/code → repo → scheduled triggers:
+In claude.ai/code → repo → scheduled triggers, create **two** triggers:
 
-1. Create a new scheduled trigger
-2. Set the prompt to: `/coffee-cats-malak-daily`
-3. Set the schedule: daily at 9:00 AM (your local timezone)
-4. Point at branch: `main`
+1. **Morning trigger** — prompt: `/coffee-cats-malak-daily`, schedule: daily at
+   9:00 AM (your local timezone), branch: `main`
+2. **Evening trigger** — prompt: `/coffee-cats-malak-daily`, schedule: daily at
+   6:00 PM, branch: `main`
 
-Each run will: pick the next scenario → generate clip + thumbnail → post to YouTube
-and TikTok → mark the scenario Done. No manual step needed.
+Each run picks the next episode not marked Done (the calendar is ordered
+Day 1 AM, Day 1 PM, Day 2 AM, …) → generates clip + thumbnail → posts to YouTube
+and TikTok → marks the episode Done. No manual step needed.
 
 ---
 

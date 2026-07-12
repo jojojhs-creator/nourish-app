@@ -17,11 +17,14 @@ Produces one episode end-to-end and hands off to the auto-posting GitHub Actions
    the next entry not yet marked Done (or use the day number given by the user).
 
 3. **Follow `docs/COFFEE_CATS_MALAK_RUNBOOK.md` step by step — ORDER MATTERS:**
-   - FIRST generate the keyframe image via nano_banana_pro (element IDs + mandatory
-     style block). This image is also the thumbnail.
-   - THEN generate the 15s clip via Seedance 2.0 FAST (9:16, 480p) passing the
-     keyframe job ID as `medias: [{value: <keyframe_job_id>, role: "start_image"}]`
-     — this forces the video into the keyframe's cartoon style.
+   - FIRST generate the SETUP keyframe image via nano_banana_pro (the scenario's
+     calm beat-1 moment with mischief visibly imminent — NEVER the payoff moment;
+     element IDs + mandatory style block). This one image is also the thumbnail —
+     never generate a second image.
+   - THEN generate the 15s clip via Seedance 2.0 FAST (9:16, 480p, `genre: "comedy"`)
+     passing the keyframe job ID as `medias: [{value: <keyframe_job_id>, role:
+     "start_image"}]`, with a second-by-second script prompt (Seconds 0-3 / 3-7 /
+     7-11 / 11-15 beats) per the runbook's proven example.
    - Write `youtube_title`, `youtube_description`, `youtube_tags`, `tiktok_caption`
 
 4. **Trigger posting** — use `mcp__github__actions_run_trigger` (method: `run_workflow`,

@@ -41,13 +41,21 @@ Note: Day number, Title, Characters, Setup, Payoff.
 
 ---
 
-## Step 2 — Generate the Keyframe FIRST (it is also the thumbnail)
+## Step 2 — Generate the SETUP Keyframe FIRST (it is also the thumbnail)
 
 **CRITICAL ORDER: the keyframe image is generated BEFORE the video.** The image model
 (nano_banana_pro) reliably produces the locked cartoon style; the video model drifts
 photorealistic when run from text alone. The keyframe is passed to the video model as
 its starting frame, forcing the whole clip into the correct style. The same image is
-reused as the episode thumbnail.
+reused as the episode thumbnail. **ONE image per episode — never generate extra
+thumbnails or extra frames.**
+
+**The keyframe depicts the SETUP moment (beat 1), NOT the payoff.** The video plays
+forward from this frame — if it shows the punchline, the story is already over at
+second zero and the clip has nowhere to go (this ruined an early Episode 2 cut).
+Make the setup frame charming enough to work as a thumbnail: mischief should be
+*visibly imminent* (e.g. kitten ears peeking over the desk edge behind an unaware
+Malak), with expressive faces.
 
 Use `generate_image` with:
 
@@ -55,7 +63,7 @@ Use `generate_image` with:
 model: "nano_banana_pro"
 params:
   aspect_ratio: "9:16"
-  prompt: <the scenario's funniest/most expressive moment + element IDs +
+  prompt: <the scenario's SETUP moment with imminent mischief + element IDs +
            the mandatory style block below>
 ```
 
@@ -74,70 +82,66 @@ params:
   resolution: "480p"
   aspect_ratio: "9:16"
   duration: 15
+  genre: "comedy"                # Seedance's built-in comedic pacing
   medias:
-    - value: <keyframe_job_id>   # forces the keyframe's cartoon style
+    - value: <keyframe_job_id>   # setup frame — forces the cartoon style
       role: "start_image"
-  prompt: <see prompt guidelines below — start with "Starting from this exact
-           frame and keeping this exact animation style:">
+  prompt: <see prompt guidelines below>
   # DO NOT include generate_audio — omit it entirely
 ```
 
-Because the clip starts at the keyframe moment, write the prompt as motion evolving
-FROM that frame (escalating actions → payoff), not as a scene set-up from scratch.
-Character element IDs are not needed in the video prompt — the start frame already
-carries the characters — but keep the style reminder ("same Pixar/Disney 3D cartoon
-animation style as the starting frame throughout, NOT photorealistic").
+**Write the video prompt as a second-by-second script.** This is what produces real
+story flow instead of a frozen scene. Required shape (proven on Episode 2 final cut):
 
-### Prompt guidelines
+> `Continuous single shot, exact same cartoon animation style and characters as the
+> starting frame from first second to last.
+> Seconds 0–3: <calm setup — what each character is doing>.
+> Seconds 3–7: <the cat strikes — first escalating action, physical and specific>.
+> Seconds 7–11: <counter-move and second escalation — Malak reacts, cat doubles down>.
+> Seconds 11–15: <payoff — Malak's big exaggerated reaction + cat's smug final pose>.
+> Lively squash-and-stretch character animation, exaggerated comedic timing,
+> expressive cartoon faces, natural continuous motion with no frozen poses,
+> no style change, no photorealism.`
 
-- Open with the character element IDs for all characters in the scene:
-  `<<<MALAK_ID>>> <<<MOCHA_ID>>>` etc.
+Character element IDs are NOT needed in the video prompt — the start frame already
+carries the characters. Every beat must contain motion; never leave a character
+static ("like a toy") for more than a beat.
+
+### Video prompt guidelines
+
+- Use the second-by-second script shape above, filling the beats from the calendar
+  row's Setup and Payoff columns.
 - Check the calendar row's **Energy** column — it sets the pacing:
-  - **Chaotic** episodes: pack the 15 seconds with physical comedy in 3 beats —
-    1. **Setup (0–3s)**: calm moment from the Setup column
-    2. **Escalation (3–11s)**: the cat does the annoying thing REPEATEDLY and
-       increasingly — multiple jumps, repeated pawing, knocking things one after
-       another, zoomies. Never a single action; always 2–4 escalating actions.
-    3. **Payoff (11–15s)**: Malak's BIG exaggerated reaction — bolts upright,
-       messy hair over her face, wide cartoon eyes, dramatic slump, silent scream
-       at the camera. Pixar-level exaggerated expression is the punchline.
-  - **Cozy** episodes: slow warm pacing, soft moments, gentle purring cuddles —
-    but still end with one small surprise or subtle comedic beat.
+  - **Chaotic** episodes: beats escalate hard — the cat strikes repeatedly and
+    increasingly (multiple jumps, repeated pawing, knocking things one after another,
+    zoomies). Never a single action. The payoff beat is Malak's BIG exaggerated
+    reaction: bolts upright, messy hair over her face, wide cartoon eyes, dramatic
+    slump, silent scream at the camera.
+  - **Cozy** episodes: same timed structure but slow and warm — gentle movements,
+    purring cuddles, soft smiles — ending with one small comedic surprise.
 - Write ACTION VERBS: pounces, springs, bolts, knocks, scrambles, launches,
-  freezes, whips around. Avoid static verbs like "sits" or "looks" for chaotic beats.
+  freezes, whips around. Avoid static verbs like "sits" or "looks".
 - Describe exaggerated reactions physically: "hair sticking up in all directions",
   "eyes comically wide", "deadpan slow blink", "dramatic collapse onto the couch".
-- **MANDATORY style block** — every clip prompt MUST end with this exact sentence
-  (this is the Episode 1 look; it is the channel's locked visual identity):
-  > `Fully stylized Pixar/Disney 3D cartoon animation with cartoon proportions, big
-  > expressive animated eyes, soft rounded features, NOT photorealistic, no live-action
-  > look, no realistic human skin — animated movie style. Warm cozy apartment, soft
-  > golden lighting.`
-  Never shorten it to just "Pixar/CGI animated style" — that phrasing alone drifts
-  toward photorealistic humans (this happened in Episode 2). The full block above is
-  what keeps Malak looking like a cartoon character.
-- Never include dialogue, subtitles, or on-screen text
-- Keep it visual — expressions, body language, cat behavior carry the comedy
+- Never include dialogue, subtitles, or on-screen text.
+- Keep it visual — expressions, body language, cat behavior carry the comedy.
 
-**Example prompt (Chaotic):**
-> `<<<MALAK_ID>>> <<<OLIVE_ID>>> Malak is sleeping peacefully in her cozy bedroom at
-> dawn. Olive the tabby cat pounces onto the bed, paws at Malak's hand, gets no
-> response, then jumps on her head — once, twice, bouncing insistently. Malak bolts
-> upright in shock, dark wavy hair a wild mess covering her face, eyes comically wide,
-> while Olive sits beside her calmly grooming a paw as if nothing happened. Exaggerated
-> physical comedy, dynamic motion. Fully stylized Pixar/Disney 3D cartoon animation
-> with cartoon proportions, big expressive animated eyes, soft rounded features, NOT
-> photorealistic, no live-action look, no realistic human skin — animated movie style.
-> Warm cozy apartment, soft golden lighting.`
-
-**Example prompt (Cozy):**
-> `<<<MALAK_ID>>> <<<SKY_ID>>> Evening, warm lamplight. Malak reads on the couch under
-> a blanket. Sky the white kitten climbs slowly into her lap, circles twice, and curls
-> up purring. Malak smiles softly — then Sky stretches and gently boops Malak's chin
-> with one paw. Fully stylized Pixar/Disney 3D cartoon animation with cartoon
-> proportions, big expressive animated eyes, soft rounded features, NOT photorealistic,
-> no live-action look, no realistic human skin — animated movie style. Warm cozy
-> apartment, soft golden lighting.`
+**Proven example (Episode 2 final cut — The Laptop Situation):**
+> `Continuous single shot, exact same cartoon animation style and characters as the
+> starting frame from first second to last. Seconds 0-3: Malak types calmly on her
+> laptop, small content smile, while Sky the white kitten's ears and eyes rise slowly
+> over the far edge of the desk behind the screen — unnoticed. Seconds 3-7: Sky
+> springs up onto the desk in one bouncy leap, trots across it and pounces onto the
+> keyboard, batting the keys rapidly with both front paws; gibberish fills the screen;
+> Malak jerks her hands back, startled. Seconds 7-11: Malak scoops Sky up with both
+> hands and lifts her away — Sky twists free in mid-air with a playful wiggle, drops
+> right back onto the keyboard, rolls onto her back and happily kicks the keys with
+> her hind legs. Seconds 11-15: Malak flops back against her chair, covers her face
+> with both hands as her hair flops loose over her forehead, then slowly peeks at the
+> camera between two fingers with one wide exasperated eye, while Sky lies sprawled
+> across the keyboard, utterly pleased with herself. Lively squash-and-stretch
+> character animation, exaggerated comedic timing, expressive cartoon faces, natural
+> continuous motion with no frozen poses, no style change, no photorealism.`
 
 ### After generation
 
@@ -148,17 +152,21 @@ Save the URL as `clip_url`.
 
 ## Keyframe/Thumbnail prompt guidelines (for Step 2)
 
-- Show the funniest or most visually striking moment from the scenario — the clip
-  will animate outward from this exact frame
+- Show the SETUP moment with mischief visibly imminent — NOT the payoff (the video
+  plays forward from this frame; a payoff frame leaves the story nowhere to go)
 - Include `<<<MALAK_ID>>>` if Malak is visible
 - Include relevant cat element IDs
-- End with the mandatory style block: "Fully stylized Pixar/Disney 3D cartoon
-  animation with cartoon proportions, big expressive animated eyes, soft rounded
-  features, NOT photorealistic, no live-action look — animated movie style. Bright
-  vibrant colors, expressive faces."
+- **MANDATORY style block** — end every image prompt with this exact sentence (it is
+  the channel's locked visual identity; shorter phrasings like "Pixar/CGI animated
+  style" drift photorealistic):
+  > `Fully stylized Pixar/Disney 3D cartoon animation with cartoon proportions, big
+  > expressive animated eyes, soft rounded features, NOT photorealistic, no
+  > live-action look — animated movie style. Bright vibrant colors, expressive faces,
+  > warm cozy lighting.`
 - No text, no overlays
 
-The keyframe image URL doubles as `thumbnail_url` — no separate thumbnail generation.
+The keyframe image URL doubles as `thumbnail_url` — ONE image per episode, no
+separate thumbnail generation.
 
 ---
 

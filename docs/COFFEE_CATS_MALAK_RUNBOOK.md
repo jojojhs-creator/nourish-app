@@ -41,7 +41,29 @@ Note: Day number, Title, Characters, Setup, Payoff.
 
 ---
 
-## Step 2 — Generate the 15s Clip
+## Step 2 — Generate the Keyframe FIRST (it is also the thumbnail)
+
+**CRITICAL ORDER: the keyframe image is generated BEFORE the video.** The image model
+(nano_banana_pro) reliably produces the locked cartoon style; the video model drifts
+photorealistic when run from text alone. The keyframe is passed to the video model as
+its starting frame, forcing the whole clip into the correct style. The same image is
+reused as the episode thumbnail.
+
+Use `generate_image` with:
+
+```
+model: "nano_banana_pro"
+params:
+  aspect_ratio: "9:16"
+  prompt: <the scenario's funniest/most expressive moment + element IDs +
+           the mandatory style block below>
+```
+
+Save the job ID as `keyframe_job_id` and the image URL as `thumbnail_url`.
+
+---
+
+## Step 3 — Generate the 15s Clip FROM the Keyframe
 
 Use `generate_video` with these exact params:
 
@@ -52,9 +74,19 @@ params:
   resolution: "480p"
   aspect_ratio: "9:16"
   duration: 15
-  prompt: <see prompt guidelines below>
+  medias:
+    - value: <keyframe_job_id>   # forces the keyframe's cartoon style
+      role: "start_image"
+  prompt: <see prompt guidelines below — start with "Starting from this exact
+           frame and keeping this exact animation style:">
   # DO NOT include generate_audio — omit it entirely
 ```
+
+Because the clip starts at the keyframe moment, write the prompt as motion evolving
+FROM that frame (escalating actions → payoff), not as a scene set-up from scratch.
+Character element IDs are not needed in the video prompt — the start frame already
+carries the characters — but keep the style reminder ("same Pixar/Disney 3D cartoon
+animation style as the starting frame throughout, NOT photorealistic").
 
 ### Prompt guidelines
 
@@ -114,29 +146,19 @@ Save the URL as `clip_url`.
 
 ---
 
-## Step 3 — Generate the Thumbnail
+## Keyframe/Thumbnail prompt guidelines (for Step 2)
 
-Use `generate_image` with:
-
-```
-model: "nano_banana_pro"
-params:
-  aspect_ratio: "9:16"
-  prompt: <scene highlight, see guidelines below>
-```
-
-### Thumbnail prompt guidelines
-
-- Show the funniest or most visually striking moment from the scenario
+- Show the funniest or most visually striking moment from the scenario — the clip
+  will animate outward from this exact frame
 - Include `<<<MALAK_ID>>>` if Malak is visible
 - Include relevant cat element IDs
-- End with the same mandatory style block as the clip prompt: "Fully stylized
-  Pixar/Disney 3D cartoon animation with cartoon proportions, big expressive animated
-  eyes, soft rounded features, NOT photorealistic, no live-action look — animated
-  movie style. Bright vibrant colors, expressive faces."
+- End with the mandatory style block: "Fully stylized Pixar/Disney 3D cartoon
+  animation with cartoon proportions, big expressive animated eyes, soft rounded
+  features, NOT photorealistic, no live-action look — animated movie style. Bright
+  vibrant colors, expressive faces."
 - No text, no overlays
 
-Save the image URL as `thumbnail_url`.
+The keyframe image URL doubles as `thumbnail_url` — no separate thumbnail generation.
 
 ---
 

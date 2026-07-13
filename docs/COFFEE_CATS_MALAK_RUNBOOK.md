@@ -134,7 +134,10 @@ static ("like a toy") for more than a beat.
   freezes, whips around. Avoid static verbs like "sits" or "looks".
 - Describe exaggerated reactions physically: "hair sticking up in all directions",
   "eyes comically wide", "deadpan slow blink", "dramatic collapse onto the couch".
-- Never include dialogue, subtitles, or on-screen text.
+- **NO TEXT anywhere — mandatory sentence in every video prompt** (the model invents
+  names like "Luna" on objects and title cards if not forbidden):
+  > `Absolutely no on-screen text, no words, no letters, no subtitles, no title
+  > cards, no writing on any object.`
 - Keep it visual — expressions, body language, cat behavior carry the comedy.
 
 **Proven example (Episode 2 final cut — The Laptop Situation):**
@@ -174,7 +177,11 @@ Save the URL as `clip_url`.
   > expressive animated eyes, soft rounded features, NOT photorealistic, no
   > live-action look — animated movie style. Bright vibrant colors, expressive faces,
   > warm cozy lighting.`
-- No text, no overlays
+- **NO TEXT anywhere — mandatory sentence in every image prompt**: image models
+  spontaneously write invented names (e.g. "Luna") on mugs, books, screens, and
+  posters if not forbidden. Every keyframe prompt MUST include:
+  > `Absolutely no text, no words, no letters, no writing anywhere in the image —
+  > plain unmarked mug, blank book covers, no posters with writing, no captions.`
 
 The keyframe image URL doubles as `thumbnail_url` — ONE image per episode, no
 separate thumbnail generation.

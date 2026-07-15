@@ -1,4 +1,4 @@
-"""Upload a finished episode to YouTube as a public, Made-for-Kids Short."""
+"""Upload a finished episode to YouTube as a public Short (general audience)."""
 
 import os
 
@@ -43,7 +43,7 @@ def upload_video(
     description: str,
     tags: list[str],
     thumbnail_path: str | None = None,
-    made_for_kids: bool = True,
+    made_for_kids: bool = False,
 ) -> dict:
     credentials = build_credentials()
     youtube = build("youtube", "v3", credentials=credentials)

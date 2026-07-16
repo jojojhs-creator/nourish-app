@@ -177,6 +177,14 @@ Save the URL as `clip_url`.
   > expressive animated eyes, soft rounded features, NOT photorealistic, no
   > live-action look — animated movie style. Bright vibrant colors, expressive faces,
   > warm cozy lighting.`
+- **Establish EVERY prop and piece of furniture the story needs in the keyframe**
+  (the table Malak will sit at, the cans she will open, the shelf that gets raided).
+  The video model must never introduce furniture or objects mid-shot — a table
+  appearing from nowhere breaks the scene. Also add "no new furniture appearing"
+  to the video prompt.
+- **World logic**: cats eat CAT food (wet food cans, kibble, treats) — never human
+  dishes. Malak's food is hers; the cats get their own bowls filled with their own
+  food. Keep household details believable.
 - **NO TEXT anywhere — mandatory sentence in every image prompt**: image models
   spontaneously write invented names (e.g. "Luna") on mugs, books, screens, and
   posters if not forbidden. Every keyframe prompt MUST include:

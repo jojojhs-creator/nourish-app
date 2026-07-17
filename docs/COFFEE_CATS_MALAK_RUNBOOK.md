@@ -134,6 +134,15 @@ static ("like a toy") for more than a beat.
   freezes, whips around. Avoid static verbs like "sits" or "looks".
 - Describe exaggerated reactions physically: "hair sticking up in all directions",
   "eyes comically wide", "deadpan slow blink", "dramatic collapse onto the couch".
+- **Character count lock — mandatory in every multi-cat video prompt**: the video
+  model DUPLICATES characters when one moves location (two Skys appeared in an early
+  Sitcom Night cut). Every video prompt with cats must state the exact census and the
+  move rule, e.g.:
+  > `EXACTLY three cats exist in this scene and each appears only once at all times:
+  > ONE golden Scottish Fold (Mocha), ONE single white kitten (Sky), ONE tabby
+  > (Olive). Never duplicate any character; when a cat moves to a new spot it LEAVES
+  > its old spot empty.`
+  Adjust the census to the characters actually in the episode.
 - **NO TEXT anywhere — mandatory sentence in every video prompt** (the model invents
   names like "Luna" on objects and title cards if not forbidden):
   > `Absolutely no on-screen text, no words, no letters, no subtitles, no title

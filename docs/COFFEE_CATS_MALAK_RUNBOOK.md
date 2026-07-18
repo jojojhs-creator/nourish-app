@@ -128,8 +128,15 @@ static ("like a toy") for more than a beat.
     zoomies). Never a single action. The payoff beat is Malak's BIG exaggerated
     reaction: bolts upright, messy hair over her face, wide cartoon eyes, dramatic
     slump, silent scream at the camera.
+  - **Funny** episodes: deadpan humor and sight gags — comedic timing over
+    destruction. Slower beats, held stares, one perfectly-timed absurd action
+    (a pancake landing as a beret, a cat tipping with one kibble). The joke is in
+    the timing and expressions, not in chaos.
   - **Cozy** episodes: same timed structure but slow and warm — gentle movements,
     purring cuddles, soft smiles — ending with one small comedic surprise.
+  - **Helper episodes** (any energy): the cats genuinely help Malak — comically or
+    sweetly. Play the help straight and let the charm carry it; end on a warm or
+    proud beat, not a disaster.
 - Write ACTION VERBS: pounces, springs, bolts, knocks, scrambles, launches,
   freezes, whips around. Avoid static verbs like "sits" or "looks".
 - Describe exaggerated reactions physically: "hair sticking up in all directions",

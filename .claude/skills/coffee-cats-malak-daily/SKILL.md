@@ -13,8 +13,14 @@ Produces one episode end-to-end and hands off to the auto-posting GitHub Actions
    and `generate_image(get_cost: true)` to preflight costs. Log both to the user.
    Only proceed if credits clearly cover the run (expect ~24.5 credits total).
 
-2. **Pick the scenario** — read `docs/CoffeeCatsMalak_Content_Calendar.md` and find
-   the next entry not yet marked Done (or use the day number given by the user).
+2. **Pick the scenario — check ALL branches first (duplicate protection).**
+   Runs before you may have marked episodes Done on `claude/`-prefixed branches
+   without reaching main. Before picking, run:
+   `git fetch origin '+refs/heads/claude/*:refs/remotes/origin/claude/*'` and check
+   the calendar file on every `origin/claude/*` branch whose latest commit is newer
+   than main's. An episode marked Done on ANY branch counts as Done. Then pick the
+   next episode not marked Done anywhere. NEVER produce an episode that any branch
+   already shows as Done — a duplicate post is worse than a skipped run.
 
 3. **Follow `docs/COFFEE_CATS_MALAK_RUNBOOK.md` step by step — ORDER MATTERS:**
    - FIRST generate the SETUP keyframe image via nano_banana_pro (the scenario's
@@ -39,7 +45,10 @@ Produces one episode end-to-end and hands off to the auto-posting GitHub Actions
 
    No Cloudinary upload, no ffmpeg merge — post the Higgsfield URL directly.
 
-5. **Update progress** — mark the episode Done in `docs/CoffeeCatsMalak_Content_Calendar.md`.
+5. **Update progress** — mark the episode Done (with the clip URL) in
+   `docs/CoffeeCatsMalak_Content_Calendar.md`, commit, and push to `main`. If the
+   push to main is rejected, push your branch AND clearly state in your final
+   summary that main was not updated and the branch-push permission needs enabling.
 
 6. **Report back** — the scenario title, Higgsfield video URL, and confirm the
    `run_workflow` call succeeded so the user can check the Actions run.

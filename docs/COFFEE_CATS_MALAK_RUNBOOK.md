@@ -33,11 +33,37 @@ Expected: ~22.5 credits for clip + ~2 credits for thumbnail = ~24.5 credits per 
 
 ---
 
-## Step 1 — Pick the Scenario
+## Step 1 — Pick the Scenario (with duplicate protection)
 
-Read `docs/CoffeeCatsMalak_Content_Calendar.md`.
-Find the next row where Status = "Not started".
-Note: Day number, Title, Characters, Setup, Payoff.
+Prior runs may have marked episodes Done on `claude/`-prefixed branches without
+reaching main. First run:
+`git fetch origin '+refs/heads/claude/*:refs/remotes/origin/claude/*'`
+and inspect `docs/CoffeeCatsMalak_Content_Calendar.md` on every `origin/claude/*`
+branch that is ahead of main. An episode marked Done on ANY branch counts as Done.
+Then read the calendar and find the next row not marked Done anywhere.
+Note: Day number, Title, Characters, Energy, Setup, Payoff.
+NEVER produce an episode already shown Done on any branch.
+
+---
+
+## The Home Set (locked — keep every episode in the same apartment)
+
+Describe rooms consistently so the apartment looks the same across episodes:
+
+- **Living room**: cream couch with warm knit blanket, wooden coffee table, TV on
+  a low console opposite the couch, tall bookshelf with plants, big window with
+  sheer curtains, warm floor lamp.
+- **Kitchen**: wooden cabinets, marble counter with a chrome espresso machine,
+  small charming wooden dining table with two chairs by the window, three little
+  cat bowls in a row near the counter, hanging pendant lights.
+- **Bedroom**: bed with cream headboard and warm quilt, nightstand with a small
+  lamp and a book, window with soft curtains.
+- **Bathroom**: white sink with round mirror, small shelf of unlabeled bottles.
+- **Entryway**: front door with coat hooks, small console table, round rug.
+- **Balcony**: small railing balcony off the living room with two plant pots.
+
+Use the matching room description in every keyframe prompt so furniture, colors
+and layout stay consistent episode to episode.
 
 ---
 

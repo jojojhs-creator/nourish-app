@@ -67,6 +67,17 @@ and layout stay consistent episode to episode.
 
 ---
 
+## Step 1.5 — Use the LOCKED SCRIPT if the episode has one
+
+Before writing anything, open `docs/CoffeeCatsMalak_Episode_Scripts.md`. If the chosen
+episode is listed there, its KEYFRAME and VIDEO prompts are pre-written and LOCKED — paste
+them verbatim (keyframe into nano_banana_pro with the Malak portrait reference; video into
+seedance_2_0 fast/480p/9:16/15s/genre comedy with the keyframe as start_image). Do not
+improvise or reword. Skip the authoring guidance below; it applies only to episodes with no
+locked script yet.
+
+---
+
 ## Step 2 — Generate the SETUP Keyframe FIRST (it is also the thumbnail)
 
 **CRITICAL ORDER: the keyframe image is generated BEFORE the video.** The image model

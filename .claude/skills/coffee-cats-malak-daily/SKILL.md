@@ -22,7 +22,16 @@ Produces one episode end-to-end and hands off to the auto-posting GitHub Actions
    next episode not marked Done anywhere. NEVER produce an episode that any branch
    already shows as Done — a duplicate post is worse than a skipped run.
 
-3. **Follow `docs/COFFEE_CATS_MALAK_RUNBOOK.md` step by step — ORDER MATTERS:**
+3. **Use the LOCKED SCRIPT if one exists.** Open `docs/CoffeeCatsMalak_Episode_Scripts.md`.
+   If the chosen episode is listed there, paste its KEYFRAME prompt into `generate_image`
+   verbatim (nano_banana_pro, 9:16, Malak portrait `7c8a4bde-3c17-4257-80f3-b8864f5a1ea9`
+   as the `image` reference) and its VIDEO prompt into `generate_video` verbatim
+   (seedance_2_0, fast, 480p, 9:16, duration 15, genre comedy, `start_image` = keyframe job
+   id). Do NOT reword, restyle, or re-scene it — the locked script is the source of truth for
+   consistency. Only if the episode is NOT in that file, fall back to writing a script per the
+   runbook.
+
+4. **Follow `docs/COFFEE_CATS_MALAK_RUNBOOK.md` step by step — ORDER MATTERS:**
    - FIRST generate the SETUP keyframe image via nano_banana_pro (the scenario's
      calm beat-1 moment with mischief visibly imminent — NEVER the payoff moment;
      element IDs + mandatory style block). This one image is also the thumbnail —
@@ -37,7 +46,7 @@ Produces one episode end-to-end and hands off to the auto-posting GitHub Actions
      7-11 / 11-15 beats) per the runbook's proven example.
    - Write `youtube_title`, `youtube_description`, `youtube_tags`, `tiktok_caption`
 
-4. **Trigger posting** — use `mcp__github__actions_run_trigger` (method: `run_workflow`,
+5. **Trigger posting** — use `mcp__github__actions_run_trigger` (method: `run_workflow`,
    workflow_id: `storyowl-autopost.yml`, ref: `main`) with:
    - `video_url`: the raw Higgsfield CloudFront URL from the clip generation
    - `thumbnail_url`: the raw Higgsfield CloudFront URL from the thumbnail generation
@@ -45,12 +54,12 @@ Produces one episode end-to-end and hands off to the auto-posting GitHub Actions
 
    No Cloudinary upload, no ffmpeg merge — post the Higgsfield URL directly.
 
-5. **Update progress** — mark the episode Done (with the clip URL) in
+6. **Update progress** — mark the episode Done (with the clip URL) in
    `docs/CoffeeCatsMalak_Content_Calendar.md`, commit, and push to `main`. If the
    push to main is rejected, push your branch AND clearly state in your final
    summary that main was not updated and the branch-push permission needs enabling.
 
-6. **Report back** — the scenario title, Higgsfield video URL, and confirm the
+7. **Report back** — the scenario title, Higgsfield video URL, and confirm the
    `run_workflow` call succeeded so the user can check the Actions run.
 
 ## Notes

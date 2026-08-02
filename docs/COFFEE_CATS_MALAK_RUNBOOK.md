@@ -155,6 +155,16 @@ Character element IDs are NOT needed in the video prompt — the start frame alr
 carries the characters. Every beat must contain motion; never leave a character
 static ("like a toy") for more than a beat.
 
+**If Malak is not in the keyframe but appears mid-video** (e.g. a hand reaching in
+from off-screen, or she's revealed later in the shot): the video model has no visual
+grounding for her and will invent a generic person — this produced a wrong-gender
+figure in Ep 38's first render. Whenever the video prompt introduces any part of
+Malak that wasn't in the keyframe, pass her canonical portrait as an additional
+`image_references` media (`<<<1a65de6a-8d89-45e6-853f-383fb1e0ed6e>>>` embedded in
+the prompt plus `{value: "7c8a4bde-3c17-4257-80f3-b8864f5a1ea9", role:
+"image_references"}` alongside the `start_image` media) and include the Malak-match
+sentence in the video prompt itself, not just the keyframe prompt.
+
 ### Video prompt guidelines
 
 - Use the second-by-second script shape above, filling the beats from the calendar

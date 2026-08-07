@@ -75,4 +75,11 @@ Produces one episode end-to-end and hands off to the auto-posting GitHub Actions
 - Never add on-screen text or captions to prompts.
 - Always embed all relevant character element IDs in the prompt using `<<<element_id>>>` syntax.
 - If a character isn't in a given scenario, don't embed their element ID.
-- TikTok posts in DRAFT mode by default — caption must be pasted manually in the TikTok app.
+- **TikTok is published natively via Higgsfield (public), NOT the GitHub workflow.** After the
+  workflow posts to YouTube, publish the same MP4 to TikTok: `tiktok_accounts` → active
+  `connector_id`; `tiktok_prepare_publish` (DIRECT_POST, VIDEO, video_url = Higgsfield MP4,
+  title = caption, PUBLIC_TO_EVERYONE, is_aigc true); then `tiktok_publish` with the
+  publish_session_id and all required_confirmations set true; then `tiktok_publish_status`.
+  See the runbook Step 5.5. Publishing is free (0 credits).
+- **TikTok caption = EXACTLY 4 hashtags**: `#cats` + `#cartoons` (both fixed, always) + two
+  hashtags specific to this episode's content, after a short hook. Max 150 chars.

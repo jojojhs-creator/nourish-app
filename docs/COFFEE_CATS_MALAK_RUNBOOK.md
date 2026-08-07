@@ -265,10 +265,17 @@ Short, punchy, emoji-friendly. Max 70 chars. Examples:
 `cats,funny cats,cat videos,animated cats,coffee cats malak,cat shorts,
 cat animation,cute cats,cozy,daily cats,shorts`
 
-### TikTok caption
-Hook + 5–8 hashtags. Max 150 chars. Examples:
-- "The audacity 😭 #catsoftiktok #catlife #funnycats #shorts #animation #fyp #viral"
-- "Every. Single. Morning. ☕ #coffeecatsmalak #cats #catlover #funnyanimals #fyp"
+### TikTok caption (HASHTAG RULE — exactly 4 tags)
+A short hook + EXACTLY 4 hashtags, max 150 chars, in this order:
+1. `#cats`  (fixed, always)
+2. `#cartoons`  (fixed, always)
+3. one hashtag specific to THIS episode's content
+4. a second hashtag specific to THIS episode's content
+Examples:
+- Selfie episode: "Tried to take ONE nice family photo 😹📸 #cats #cartoons #catselfie #funnycats"
+- Coffee episode: "He waited all morning for this ☕😼 #cats #cartoons #coffee #scottishfold"
+No more, no fewer than 4 tags. The two content tags should match the scene (e.g.
+#kitten, #zoomies, #cozy, #baking, #naptime, #tabby, #skincare…).
 
 ---
 
@@ -292,6 +299,28 @@ inputs:
 ```
 
 No Cloudinary upload needed — pass the Higgsfield CloudFront URL directly.
+
+---
+
+## Step 5.5 — Publish to TikTok via Higgsfield (native, public)
+
+YouTube is handled by the `storyowl-autopost.yml` workflow (Step 5). TikTok is now
+published natively through Higgsfield's approved TikTok app — public, with the caption
+and hashtags, no manual tap, no app-audit wall.
+
+1. `tiktok_accounts` → take the `connector_id` of the `active` account. If none is active,
+   report that the user must reconnect (`tiktok_connect`) and skip TikTok for this run.
+2. `tiktok_prepare_publish` with: `connector_id`, `mode: "DIRECT_POST"`, `media_type: "VIDEO"`,
+   `video_url` = the raw Higgsfield CloudFront MP4 URL, `title` = the 4-hashtag caption
+   (see the hashtag rule above), `privacy_level: "PUBLIC_TO_EVERYONE"`, `is_aigc: true`.
+3. `tiktok_publish` with the returned `publish_session_id`, the same `connector_id`,
+   `mode: "DIRECT_POST"`, `media_type: "VIDEO"`, `title` (same caption), `is_aigc: true`,
+   `privacy_level: "PUBLIC_TO_EVERYONE"`, and set `user_confirmed: true`, `preview_confirmed:
+   true`, plus every flag named in the prepare response's `required_confirmations`.
+4. `tiktok_publish_status` to confirm it went live.
+
+Publishing costs 0 credits (it is not a generation). Quota is 13 posts/day per account —
+well above 2/day. The video MP4 already meets TikTok's limits (9:16, 15s, MP4).
 
 ---
 

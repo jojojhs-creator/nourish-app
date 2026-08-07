@@ -139,7 +139,11 @@ def main() -> None:
         results["youtube"] = {"status": "dry_run"}
 
     post_mode = os.environ.get("TIKTOK_POST_MODE", tiktok_uploader.DEFAULT_POST_MODE)
-    if tiktok_uploader.is_configured():
+    if post_mode.strip().upper() in ("OFF", "NONE", "DISABLED"):
+        # TikTok is published natively via Higgsfield (see runbook Step 5.5), so this
+        # workflow skips its own TikTok upload to avoid duplicate inbox drafts.
+        results["tiktok"] = {"status": "disabled", "post_mode": post_mode}
+    elif tiktok_uploader.is_configured():
         try:
             upload_result = tiktok_uploader.upload_video(video_path, meta["tiktok"]["caption"], post_mode)
             results["tiktok"] = {

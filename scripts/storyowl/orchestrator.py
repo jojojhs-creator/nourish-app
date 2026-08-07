@@ -138,7 +138,10 @@ def main() -> None:
     else:
         results["youtube"] = {"status": "dry_run"}
 
-    post_mode = os.environ.get("TIKTOK_POST_MODE", tiktok_uploader.DEFAULT_POST_MODE)
+    # Default OFF: TikTok is published natively via Higgsfield (runbook Step 5.5), so the
+    # GitHub workflow no longer posts to TikTok unless TIKTOK_POST_MODE is explicitly set to
+    # a real mode (DRAFT/SELF_ONLY/PUBLIC_TO_EVERYONE). Unset or empty = OFF.
+    post_mode = os.environ.get("TIKTOK_POST_MODE") or "OFF"
     if post_mode.strip().upper() in ("OFF", "NONE", "DISABLED"):
         # TikTok is published natively via Higgsfield (see runbook Step 5.5), so this
         # workflow skips its own TikTok upload to avoid duplicate inbox drafts.

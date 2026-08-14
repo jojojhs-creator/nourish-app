@@ -42,7 +42,7 @@ Full setup/credentials/troubleshooting: `docs/COFFEE_CATS_MALAK_SETUP.md`.
 | **Mocha** | Golden Scottish Fold, folded ears, yellow-green eyes | Dramatic — steals warm spots, grooming rituals |
 | **Sky** | White fluffy kitten, blue eyes | Chaotic — gets into everything, very curious |
 | **Olive** | Classic tabby, striped, sleepy expression | Unbothered — naps anywhere, judges everyone |
-| **Jad** | Malak's partner — TBD appearance (locked once his portrait is created from his photo) | Easygoing, warm, slowly won over by the cats; the calm to Malak's overwhelm |
+| **Jad** | Malak's partner — dark top-knot man-bun with undercut sides, full medium dark beard, glasses, warm skin | Easygoing, warm, slowly won over by the cats; the calm to Malak's overwhelm |
 
 ## Character Reference Element IDs (Higgsfield)
 
@@ -54,6 +54,10 @@ Full setup/credentials/troubleshooting: `docs/COFFEE_CATS_MALAK_SETUP.md`.
 | Olive | `74a58910-181f-4819-a00f-73f076bf5d69` |
 
 Embed in prompts as `<<<element_id>>>`. See `docs/COFFEE_CATS_MALAK_RUNBOOK.md`.
+
+**Human canonical portraits** (passed as an `image` reference on keyframes, NOT element IDs):
+- Malak → job `7c8a4bde-3c17-4257-80f3-b8864f5a1ea9`
+- Jad → job `f791d4f3-e66f-4db2-92ae-15a72246306d`
 
 ## Credit check rule
 

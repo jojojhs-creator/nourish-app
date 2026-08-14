@@ -115,6 +115,17 @@ sentence in the prompt:
 > long dark wavy hair, same brown eyes, same soft rounded cartoon features and
 > proportions.`
 
+**Jad consistency rule**: Jad (Malak's partner) is the canonical design in job
+`f791d4f3-e66f-4db2-92ae-15a72246306d`. Whenever Jad appears, ALSO pass that portrait as an `image` reference
+(alongside Malak's when she's in the scene — nano_banana_pro accepts multiple image
+references) and include this sentence in the prompt:
+> `Jad must look exactly like the man in the reference image: same face, same dark
+> top-knot man-bun with undercut sides, same full medium-length dark beard, same
+> glasses, same slim straight nose, same soft rounded cartoon features and proportions.`
+
+When BOTH Malak and Jad are in a keyframe, pass BOTH portraits as `image` references and
+include both match sentences.
+
 Save the job ID as `keyframe_job_id` and the image URL as `thumbnail_url`.
 
 ---

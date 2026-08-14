@@ -40,7 +40,7 @@ Produces one episode end-to-end and hands off to the auto-posting GitHub Actions
      (`medias: [{value: "7c8a4bde-3c17-4257-80f3-b8864f5a1ea9", role: "image"}]`)
      and include the runbook's Malak-match sentence — she is the main character
      and must look identical in every episode.
-   - When Jad (Malak's partner) appears, ALSO pass his canonical portrait
+   - When Jad (Malak's husband) appears, ALSO pass his canonical portrait
      (`{value: "f791d4f3-e66f-4db2-92ae-15a72246306d", role: "image"}`) and the runbook's Jad-match
      sentence. If both appear, pass BOTH portraits and both match sentences.
    - THEN generate the 15s clip via Seedance 2.0 FAST (9:16, 480p, `genre: "comedy"`)

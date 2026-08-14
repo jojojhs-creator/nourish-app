@@ -115,7 +115,7 @@ sentence in the prompt:
 > long dark wavy hair, same brown eyes, same soft rounded cartoon features and
 > proportions.`
 
-**Jad consistency rule**: Jad (Malak's partner) is the canonical design in job
+**Jad consistency rule**: Jad (Malak's husband, who lives with her) is the canonical design in job
 `f791d4f3-e66f-4db2-92ae-15a72246306d`. Whenever Jad appears, ALSO pass that portrait as an `image` reference
 (alongside Malak's when she's in the scene — nano_banana_pro accepts multiple image
 references) and include this sentence in the prompt:

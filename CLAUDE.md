@@ -42,6 +42,7 @@ Full setup/credentials/troubleshooting: `docs/COFFEE_CATS_MALAK_SETUP.md`.
 | **Mocha** | Golden Scottish Fold, folded ears, yellow-green eyes | Dramatic — steals warm spots, grooming rituals |
 | **Sky** | White fluffy kitten, blue eyes | Chaotic — gets into everything, very curious |
 | **Olive** | Classic tabby, striped, sleepy expression | Unbothered — naps anywhere, judges everyone |
+| **Jad** | Malak's partner — TBD appearance (locked once his portrait is created from his photo) | Easygoing, warm, slowly won over by the cats; the calm to Malak's overwhelm |
 
 ## Character Reference Element IDs (Higgsfield)
 

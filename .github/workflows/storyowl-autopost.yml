@@ -25,10 +25,6 @@ on:
         description: "Comma-separated YouTube tags"
         required: false
         type: string
-      tiktok_caption:
-        description: "TikTok caption (with hashtags)"
-        required: false
-        type: string
 
 permissions:
   contents: read
@@ -57,14 +53,9 @@ jobs:
           YOUTUBE_TITLE: ${{ github.event.client_payload.youtube_title || inputs.youtube_title }}
           YOUTUBE_DESCRIPTION: ${{ github.event.client_payload.youtube_description || inputs.youtube_description }}
           YOUTUBE_TAGS: ${{ github.event.client_payload.youtube_tags || inputs.youtube_tags }}
-          TIKTOK_CAPTION: ${{ github.event.client_payload.tiktok_caption || inputs.tiktok_caption }}
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
-          TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
-          TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
-          TIKTOK_REFRESH_TOKEN: ${{ secrets.TIKTOK_REFRESH_TOKEN }}
-          TIKTOK_POST_MODE: ${{ vars.TIKTOK_POST_MODE }}
           INCLUDE_VIDEO_IN_ARTIFACT: ${{ vars.INCLUDE_VIDEO_IN_ARTIFACT }}
         run: python scripts/storyowl/orchestrator.py
 

@@ -1,12 +1,12 @@
-"""StoryOwl Tier 2 entrypoint: download an episode video and post it to YouTube + TikTok.
+"""Coffee, Cats & Malak — Tier 2 entrypoint: download an episode video and post it to YouTube.
+
+TikTok is NOT handled here anymore — it is published natively via Higgsfield
+(see docs/COFFEE_CATS_MALAK_RUNBOOK.md Step 5.5). This workflow only posts to YouTube.
 
 Reads inputs from environment variables (set by the GitHub Actions workflow from either
 a `repository_dispatch` payload or `workflow_dispatch` inputs), with optional CLI
-overrides for local testing.
-
-Each platform is skipped (dry-run) if its credentials aren't configured - this lets the
-pipeline be exercised end-to-end (download + metadata generation) before OAuth setup is
-complete.
+overrides for local testing. YouTube is skipped (dry-run) if its credentials aren't
+configured.
 """
 
 import argparse
@@ -16,7 +16,6 @@ import sys
 
 import downloader
 import metadata
-import tiktok_uploader
 import youtube_uploader
 
 OUT_DIR = "out"
@@ -29,7 +28,7 @@ def get_inputs() -> dict:
     parser.add_argument("--youtube-title")
     parser.add_argument("--youtube-description")
     parser.add_argument("--youtube-tags")
-    parser.add_argument("--tiktok-caption")
+    parser.add_argument("--tiktok-caption")  # accepted but ignored (TikTok via Higgsfield)
     args = parser.parse_args()
 
     video_url = args.video_url or os.environ.get("VIDEO_URL", "")
@@ -47,7 +46,6 @@ def get_inputs() -> dict:
         "youtube_title": args.youtube_title or os.environ.get("YOUTUBE_TITLE", ""),
         "youtube_description": args.youtube_description or os.environ.get("YOUTUBE_DESCRIPTION", ""),
         "youtube_tags": tags,
-        "tiktok_caption": args.tiktok_caption or os.environ.get("TIKTOK_CAPTION", ""),
     }
 
 
@@ -75,13 +73,7 @@ def write_outputs(inputs: dict, meta: dict, results: dict) -> None:
     else:
         lines.append(f"| YouTube | error | {yt.get('error', '')} |")
 
-    tt = results["tiktok"]
-    if tt["status"] == "uploaded":
-        lines.append(f"| TikTok | uploaded ({tt['mode']}) | publish_id={tt['publish_id']}, status={tt['status_detail']} |")
-    elif tt["status"] == "dry_run":
-        lines.append(f"| TikTok | dry run (mode={tt['post_mode']}) | see generated caption below |")
-    else:
-        lines.append(f"| TikTok | error | {tt.get('error', '')} |")
+    lines.append("| TikTok | published separately via Higgsfield (not this workflow) | — |")
 
     lines += [
         "",
@@ -91,9 +83,6 @@ def write_outputs(inputs: dict, meta: dict, results: dict) -> None:
         f"**Description:**\n```\n{meta['youtube']['description']}\n```",
         "",
         f"**Tags:** {', '.join(meta['youtube']['tags'])}",
-        "",
-        "### Generated TikTok caption",
-        f"```\n{meta['tiktok']['caption']}\n```",
     ]
 
     with open(summary_path, "a", encoding="utf-8") as f:
@@ -116,10 +105,9 @@ def main() -> None:
         "youtube": metadata.ensure_youtube_metadata(
             inputs["youtube_title"], inputs["youtube_description"], inputs["youtube_tags"]
         ),
-        "tiktok": {"caption": metadata.ensure_tiktok_caption(inputs["tiktok_caption"], inputs["youtube_title"])},
     }
 
-    results: dict = {"youtube": None, "tiktok": None}
+    results: dict = {"youtube": None}
     had_error = False
 
     if youtube_uploader.is_configured():
@@ -132,34 +120,11 @@ def main() -> None:
                 thumbnail_path=thumbnail_path,
             )
             results["youtube"] = {"status": "uploaded", **upload_result}
-        except Exception as exc:  # noqa: BLE001 - report and continue with TikTok
+        except Exception as exc:  # noqa: BLE001
             results["youtube"] = {"status": "error", "error": str(exc)}
             had_error = True
     else:
         results["youtube"] = {"status": "dry_run"}
-
-    # Default OFF: TikTok is published natively via Higgsfield (runbook Step 5.5), so the
-    # GitHub workflow no longer posts to TikTok unless TIKTOK_POST_MODE is explicitly set to
-    # a real mode (DRAFT/SELF_ONLY/PUBLIC_TO_EVERYONE). Unset or empty = OFF.
-    post_mode = os.environ.get("TIKTOK_POST_MODE") or "OFF"
-    if post_mode.strip().upper() in ("OFF", "NONE", "DISABLED"):
-        # TikTok is published natively via Higgsfield (see runbook Step 5.5), so this
-        # workflow skips its own TikTok upload to avoid duplicate inbox drafts.
-        results["tiktok"] = {"status": "disabled", "post_mode": post_mode}
-    elif tiktok_uploader.is_configured():
-        try:
-            upload_result = tiktok_uploader.upload_video(video_path, meta["tiktok"]["caption"], post_mode)
-            results["tiktok"] = {
-                "status": "uploaded",
-                "mode": upload_result["mode"],
-                "publish_id": upload_result["publish_id"],
-                "status_detail": upload_result["status"],
-            }
-        except Exception as exc:  # noqa: BLE001
-            results["tiktok"] = {"status": "error", "error": str(exc)}
-            had_error = True
-    else:
-        results["tiktok"] = {"status": "dry_run", "post_mode": post_mode}
 
     write_outputs(inputs, meta, results)
 

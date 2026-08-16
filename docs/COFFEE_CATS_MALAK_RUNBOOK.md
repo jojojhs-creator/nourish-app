@@ -138,7 +138,7 @@ Use `generate_video` with these exact params:
 model: "seedance_2_0"
 params:
   mode: "fast"
-  resolution: "480p"
+  resolution: "720p"          # sharper, fewer artifacts than 480p
   aspect_ratio: "9:16"
   duration: 15
   genre: "comedy"                # Seedance's built-in comedic pacing
@@ -165,6 +165,32 @@ story flow instead of a frozen scene. Required shape (proven on Episode 2 final 
 Character element IDs are NOT needed in the video prompt — the start frame already
 carries the characters. Every beat must contain motion; never leave a character
 static ("like a toy") for more than a beat.
+
+### MEANING, CLARITY & QUALITY — the three rules that make videos read well
+
+The video model muddles into artifacts and "no meaning" when a 15-second clip is
+overloaded. Follow these THREE rules on every clip:
+
+1. **ONE clear story, readable in the first 3 seconds.** Every episode is a tiny
+   three-act: SETUP (0-4s: establish who wants what — one clear want), TURN (4-10s:
+   the ONE thing happens / escalates), PAYOFF (10-15s: a single satisfying button —
+   either a laugh or a warm heart-beat). If a viewer can't say what happened in one
+   sentence, it's too busy. Cut, don't add.
+
+2. **Limit who is ACTING to 1-2 characters.** Extra characters may be present but
+   must hold simple, calm poses (sitting, watching, sleeping) — never give three
+   cats plus two humans separate simultaneous actions in one 15s clip (that made the
+   "Who Fed The Cats" cut read as noise). Pick the ONE cat (or the couple) who drives
+   the gag; everyone else is background. Two beats of motion max per acting character.
+
+3. **Mandatory QUALITY-GUARD sentence** — end EVERY video prompt with it verbatim:
+   > `Clean consistent character models throughout — correct anatomy, the right
+   > number of limbs, ears and tails, no extra or missing body parts, no morphing or
+   > warping, no melting faces, no duplicated characters, objects stay solid and
+   > physically consistent; keep motion natural and readable.`
+
+Prefer a slower, clearer beat over a busy one. A calm cozy moment that lands beats a
+chaotic blur every time.
 
 ### Video prompt guidelines
 

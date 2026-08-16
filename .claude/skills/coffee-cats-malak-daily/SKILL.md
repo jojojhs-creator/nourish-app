@@ -84,5 +84,10 @@ Produces one episode end-to-end and hands off to the auto-posting GitHub Actions
   title = caption, PUBLIC_TO_EVERYONE, is_aigc true); then `tiktok_publish` with the
   publish_session_id and all required_confirmations set true; then `tiktok_publish_status`.
   See the runbook Step 5.5. Publishing is free (0 credits).
+- **Story quality**: one clear readable story per clip (setup → turn → payoff with a
+  satisfying button), only 1-2 characters ACTING at once (others hold calm poses),
+  720p, and every video prompt MUST end with the runbook's mandatory quality-guard
+  sentence (correct anatomy, no morphing/warping, no duplicated characters). Prefer a
+  slower clear beat over a busy blur.
 - **TikTok caption = EXACTLY 4 hashtags**: `#cats` + `#cartoons` (both fixed, always) + two
   hashtags specific to this episode's content, after a short hook. Max 150 chars.

@@ -26,7 +26,7 @@ Produces one episode end-to-end and hands off to the auto-posting GitHub Actions
    If the chosen episode is listed there, paste its KEYFRAME prompt into `generate_image`
    verbatim (nano_banana_pro, 9:16, Malak portrait `7c8a4bde-3c17-4257-80f3-b8864f5a1ea9`
    as the `image` reference) and its VIDEO prompt into `generate_video` verbatim
-   (seedance_2_0, fast, 720p, 9:16, duration 15, genre comedy, `start_image` = keyframe job
+   (seedance_2_0, fast, 480p, 9:16, duration 15, genre comedy, `start_image` = keyframe job
    id). Do NOT reword, restyle, or re-scene it — the locked script is the source of truth for
    consistency. Only if the episode is NOT in that file, fall back to writing a script per the
    runbook.
@@ -43,7 +43,7 @@ Produces one episode end-to-end and hands off to the auto-posting GitHub Actions
    - When Jad (Malak's husband) appears, ALSO pass his canonical portrait
      (`{value: "f791d4f3-e66f-4db2-92ae-15a72246306d", role: "image"}`) and the runbook's Jad-match
      sentence. If both appear, pass BOTH portraits and both match sentences.
-   - THEN generate the 15s clip via Seedance 2.0 FAST (9:16, 720p, `genre: "comedy"`)
+   - THEN generate the 15s clip via Seedance 2.0 FAST (9:16, 480p, `genre: "comedy"`)
      passing the keyframe job ID as `medias: [{value: <keyframe_job_id>, role:
      "start_image"}]`, with a second-by-second script prompt (Seconds 0-3 / 3-7 /
      7-11 / 11-15 beats) per the runbook's proven example.
@@ -86,7 +86,7 @@ Produces one episode end-to-end and hands off to the auto-posting GitHub Actions
   See the runbook Step 5.5. Publishing is free (0 credits).
 - **Story quality**: one clear readable story per clip (setup → turn → payoff with a
   satisfying button), only 1-2 characters ACTING at once (others hold calm poses),
-  720p, and every video prompt MUST end with the runbook's mandatory quality-guard
+  and every video prompt MUST end with the runbook's mandatory quality-guard
   sentence (correct anatomy, no morphing/warping, no duplicated characters). Prefer a
   slower clear beat over a busy blur.
 - **TikTok caption = EXACTLY 4 hashtags**: `#cats` + `#cartoons` (both fixed, always) + two

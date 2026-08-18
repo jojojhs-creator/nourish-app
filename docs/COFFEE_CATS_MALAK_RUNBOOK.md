@@ -29,7 +29,7 @@ Only include characters who appear in the scenario.
 4. Confirm total cost fits within balance before proceeding
 ```
 
-Expected: ~22.5 credits for clip + ~2 credits for thumbnail = ~24.5 credits per episode.
+Expected: ~22.5 credits for clip (480p) + ~2 credits for thumbnail = ~24.5 credits per episode.
 
 ---
 
@@ -72,7 +72,7 @@ and layout stay consistent episode to episode.
 Before writing anything, open `docs/CoffeeCatsMalak_Episode_Scripts.md`. If the chosen
 episode is listed there, its KEYFRAME and VIDEO prompts are pre-written and LOCKED — paste
 them verbatim (keyframe into nano_banana_pro with the Malak portrait reference; video into
-seedance_2_0 fast/720p/9:16/15s/genre comedy with the keyframe as start_image). Do not
+seedance_2_0 fast/480p/9:16/15s/genre comedy with the keyframe as start_image). Do not
 improvise or reword. Skip the authoring guidance below; it applies only to episodes with no
 locked script yet.
 
@@ -138,7 +138,7 @@ Use `generate_video` with these exact params:
 model: "seedance_2_0"
 params:
   mode: "fast"
-  resolution: "720p"          # sharper, fewer artifacts than 480p
+  resolution: "480p"          # cost-efficient; quality now comes from the MEANING/CLARITY/QUALITY rules below, not resolution
   aspect_ratio: "9:16"
   duration: 15
   genre: "comedy"                # Seedance's built-in comedic pacing
